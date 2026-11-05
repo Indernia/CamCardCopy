@@ -1,6 +1,7 @@
 # Reference environment (locked)
 - CamCard version: 8.65.0.2610161713 (Settings › About)
-- Device: IPhone 15, iOS <version>
+- Device: iPhone 15, iOS 27
+- App Store region: Denmark
 - App language: English (System Default)
 - Account: logged out, free features only
 - Recognition language: English

@@ -6,7 +6,7 @@ context: |
   CamCard's observed behavior is the target. It lives in reference/, NOT in
   openspec/specs/ (which describes what OUR app currently does).
 
-  Stack: iOS 17+, Swift, SwiftUI, MVVM with @Observable ViewModels on @MainActor,
+  Stack: iOS 27+, Swift, SwiftUI, MVVM with @Observable ViewModels on @MainActor,
   SwiftData for persistence, Vision for OCR and rectangle detection, PhotosUI for
   import, Contacts framework for export. Tests: XCTest unit tests and XCUITest.
 
