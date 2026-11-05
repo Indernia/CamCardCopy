@@ -9,6 +9,9 @@ context: |
   Stack: iOS 27+, Swift, SwiftUI, MVVM with @Observable ViewModels on @MainActor,
   SwiftData for persistence, Vision for OCR and rectangle detection, PhotosUI for
   import, Contacts framework for export. Tests: XCTest unit tests and XCUITest.
+  Concurrency: default actor isolation is MainActor (Xcode setting). Mark
+  heavy work (Vision OCR, image processing) nonisolated / @concurrent
+  explicitly.
 
   Reference evidence:
   - reference/observations.md: state inventory, IDs P##-S## (page-state)
