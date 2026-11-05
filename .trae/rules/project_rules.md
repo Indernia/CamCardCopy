@@ -16,3 +16,4 @@
   reference/screenshots/ by its state ID.
 - After each archived change, append to docs/ai-log.md: change name, what you
   generated, what I corrected, test results.
+- Run tests with exactly: `xcodebuild test -project "CamCard Copy.xcodeproj" -scheme "CamCard Copy" -destination "platform=iOS Simulator,name=iPhone 17"`
