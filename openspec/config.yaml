@@ -1,0 +1,44 @@
+schema: spec-driven
+
+context: |
+  Project: black-box replication of CamCard's "business card digitization and
+  contact management" slice for an iOS course assignment using SDD.
+  CamCard's observed behavior is the target. It lives in reference/, NOT in
+  openspec/specs/ (which describes what OUR app currently does).
+
+  Stack: iOS 17+, Swift, SwiftUI, MVVM with @Observable ViewModels on @MainActor,
+  SwiftData for persistence, Vision for OCR and rectangle detection, PhotosUI for
+  import, Contacts framework for export. Tests: XCTest unit tests and XCUITest.
+
+  Reference evidence:
+  - reference/observations.md: state inventory, IDs P##-S## (page-state)
+  - reference/state-diagram.md: Mermaid flow, source of truth for navigation
+  - reference/screenshots/: one image per state ID, for layout and text only
+  - reference/dataset/ + ground-truth.json: synthetic test cards
+
+  Domain vocabulary (use CamCard's terms): "CardHolder" (card list), "Edit Card"
+  (verification screen), "Group" (the assignment's tags; default "Ungrouped"),
+  "Note" (a timeline of timestamped entries, first one auto-created on save).
+
+  Hard rules:
+  - Preserve raw OCR output. Field parsing is a separate component.
+  - Never infer or fabricate a field not present in the OCR text; return nil.
+  - Every AI result passes through the Edit Card screen before save.
+  - Do not reproduce CamCard's illustrations, icons or logos. Use SF Symbols or
+    plain placeholders. Match layout, spacing and text, not artwork.
+  - Out of scope: login, premium/paywall, digital card creation, Tools tab
+    features, AI assistant, sync, messages. Tabs may exist as placeholders.
+
+rules:
+  proposal:
+    - List the state IDs (P##-S##) and test IDs (T01-T20) this change covers.
+    - Include an explicit Out of scope section.
+  specs:
+    - Name every scenario with its test ID, e.g. "T09 — Missing website is not fabricated".
+    - Base scenarios only on reference/observations.md; mark anything not observed as ASSUMPTION.
+    - Quote exact UI text from the observations, not paraphrases.
+  design:
+    - Name the files and types touched; state which existing interfaces stay unchanged.
+  tasks:
+    - Each task ends with the test that proves it.
+    - Last task is always: run the full test suite and report results.
