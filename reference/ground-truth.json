@@ -1,1 +1,113 @@
-[]
+[
+  {
+    "id": "card-01-standard",
+    "image": "dataset/card-01-standard.png",
+    "photo": "dataset/card-01-standard-photo.jpg",
+    "tests": [
+      "T07",
+      "T08",
+      "T11",
+      "T12",
+      "T13",
+      "T15"
+    ],
+    "purpose": "Every model field present, labelled M/T/E/W. Baseline happy path.",
+    "expected": {
+      "name": "Maya Lindqvist",
+      "company": "Harbourlight Studio",
+      "jobTitle": "Senior Product Designer",
+      "mobile": "+1 (202) 555-0142",
+      "phone": "+1 (202) 555-0100",
+      "email": "maya.lindqvist@harbourlight.example",
+      "website": "www.harbourlight.example",
+      "address": "48 Pier Street, Suite 300, Portland, OR 97209"
+    }
+  },
+  {
+    "id": "card-02-no-website",
+    "image": "dataset/card-02-no-website.png",
+    "photo": "dataset/card-02-no-website-photo.jpg",
+    "tests": [
+      "T07",
+      "T09"
+    ],
+    "purpose": "No website, office phone or address. Parser must return nil for them and must not derive a website from the email domain.",
+    "expected": {
+      "name": "Daniel Okafor",
+      "company": "Okafor Electric",
+      "jobTitle": "Licensed Electrician",
+      "mobile": "+1 (312) 555-0187",
+      "phone": null,
+      "email": "dan.okafor@mailbox.example",
+      "website": null,
+      "address": null
+    }
+  },
+  {
+    "id": "card-03-multi-contact",
+    "image": "dataset/card-03-multi-contact.png",
+    "photo": "dataset/card-03-multi-contact-photo.jpg",
+    "tests": [
+      "T08",
+      "T10"
+    ],
+    "purpose": "Mobile, office and fax numbers plus two emails. Fax must not land in mobile/phone; the second email has no label.",
+    "expected": {
+      "name": "Sofia Marchetti",
+      "company": "Alpine Freight Logistics",
+      "jobTitle": "Head of Procurement",
+      "mobile": "+1 (415) 555-0123",
+      "phone": "+1 (415) 555-0198",
+      "email": "s.marchetti@alpinefreight.example",
+      "website": "alpinefreight.example",
+      "address": "1200 Harbor Way, Building C, San Francisco, CA 94107"
+    },
+    "fax": "+1 (415) 555-0199",
+    "emails": [
+      "s.marchetti@alpinefreight.example",
+      "orders@alpinefreight.example"
+    ]
+  },
+  {
+    "id": "card-04-dark",
+    "image": "dataset/card-04-dark.png",
+    "photo": "dataset/card-04-dark-photo.jpg",
+    "tests": [
+      "T04",
+      "T06",
+      "T07"
+    ],
+    "purpose": "Light text on a dark background with decorative lines; unlabelled phones (mobile first, landline second). Tests detection contrast and OCR on inverted colors.",
+    "expected": {
+      "name": "Priya Shah",
+      "company": "Brightwave Analytics Ltd",
+      "jobTitle": "Chief Technology Officer",
+      "mobile": "+44 7700 900123",
+      "phone": "+44 20 7946 0958",
+      "email": "priya.shah@brightwave.example",
+      "website": "brightwave.example",
+      "address": "21 Fenwick Lane, London EC2A 4XY, UK"
+    },
+    "note": "Company is split over two lines: 'BRIGHTWAVE' / 'Analytics Ltd'."
+  },
+  {
+    "id": "card-05-portrait-minimal",
+    "image": "dataset/card-05-portrait-minimal.png",
+    "photo": "dataset/card-05-portrait-minimal-photo.jpg",
+    "tests": [
+      "T04",
+      "T09"
+    ],
+    "purpose": "Portrait orientation, serif name, no company, phone or address. Company must stay nil (do not infer it from the email or website domain).",
+    "expected": {
+      "name": "Elena Novak",
+      "company": null,
+      "jobTitle": "Freelance Photographer",
+      "mobile": null,
+      "phone": null,
+      "email": "hello@elenanovak.example",
+      "website": "elenanovak.example",
+      "address": null
+    }
+  }
+]
