@@ -12,7 +12,7 @@ struct RootView: View {
             MainTabBar(selectedTab: $selectedTab, onScan: { isScanPresented = true })
         }
         .fullScreenCover(isPresented: $isScanPresented) {
-            ScanPlaceholderView()
+            ScanFlowView()
         }
     }
 

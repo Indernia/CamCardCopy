@@ -200,9 +200,9 @@ Missing these keys would terminate the app when the camera or photo library is f
 | `CamCard Copy/Features/Scan/VisionCardDetector.swift` | `VisionCardDetector` (`@concurrent`) — Vision detection + Core Image correction. |
 | `CamCard Copy/Features/Scan/StubCardDetector.swift` | `StubCardDetector` — correction-failure and other impossible-naturally cases only. |
 | `CamCard Copy/Features/Scan/ScanFixtureFactory.swift` | `ScanFixtureFactory` — generated synthetic card, plain and photo-grid images. |
+| `CamCard Copy/Features/Scan/ScanHandoff.swift` | `ScanHandoff` — produces the uncropped original plus corrected image, or nil when no card is found. |
 | `CamCard Copy/Features/Album/PhotoLibraryProviding.swift` | `PhotoLibraryProviding`, `PhotoAccessState`, `PhotoAsset`, `PhotoAlbum`, real `PhotoKitLibrary`, `FakePhotoLibrary`. |
-| `CamCard Copy/Features/Album/AlbumPickerView.swift` | `AlbumPickerView` — banner, grid, album list, Cancel/Done, denied view. |
-| `CamCard Copy/Features/Album/AlbumPickerViewModel.swift` | `AlbumPickerViewModel` (`@Observable`, `@MainActor`) — authorization, selection, thumbnails. |
+| `CamCard Copy/Features/Album/AlbumPickerView.swift` | `AlbumPickerView` with its own `@State` — banner, Recents grid, album list, album grid, Cancel/Done, denied view. |
 | `CamCard Copy/Features/EditCard/EditCardView.swift` | `EditCardView` — P05-S01 shell with disabled Save and Retake. |
 | `CamCard CopyTests/CardDetectionTests.swift` | T06-U1/U2 against generated fixtures and the real detector. |
 | `CamCard CopyTests/CameraPermissionTests.swift` | T03 camera permission-state mapping with a fake provider. |
