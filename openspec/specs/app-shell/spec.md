@@ -95,13 +95,24 @@ The card detail screen SHALL display the card image, or a placeholder when no im
 - **WHEN** an opened card has groups and notes stored
 - **THEN** its group names and each note's text are visible
 
-### Requirement: Scan placeholder
+### Requirement: Scan button opens card capture
 
-The center scan button SHALL open a dismissible placeholder screen. It SHALL NOT start camera capture, request camera or photo permission, or invoke detection, OCR or saving in this change.
+The center scan button SHALL open the full-screen card capture flow defined by the `card-capture` capability instead of a placeholder screen. Closing the camera SHALL dismiss the flow and return to the previously selected tab.
 
-#### Scenario: ASSUMPTION — Scan button opens a dismissible placeholder
+#### Scenario: T02 — Scan button opens the camera flow
 
 - **WHEN** the user taps the center scan button
-- **THEN** a placeholder screen appears
-- **WHEN** the user dismisses it
-- **THEN** the previously selected tab is shown again
+- **THEN** the card capture camera screen appears with Close (X)
+- **AND** no placeholder screen is shown
+
+#### Scenario: T02 — Closing the camera returns to the previous tab
+
+- **WHEN** the user taps Close (X) on the camera screen
+- **THEN** the capture flow is dismissed
+- **AND** the previously selected tab is shown again
+
+#### Scenario: ASSUMPTION — Existing scan open/close path is preserved
+
+- **WHEN** the existing scan open/close UI check taps the center scan button
+- **THEN** the camera screen appears
+- **AND** tapping Close returns to the Home tab
