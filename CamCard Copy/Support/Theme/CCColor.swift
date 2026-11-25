@@ -23,6 +23,7 @@ enum CCColor {
         case tabSelected, tabUnselected
         case scanGradientStart, scanGradientEnd
         case premiumGradientStart, premiumGradientEnd, premiumCard
+        case navInk, navDivider
     }
 
     static func hex(_ token: Token) -> String {
@@ -44,6 +45,8 @@ enum CCColor {
         case .premiumGradientStart: "#EF8C44"
         case .premiumGradientEnd: "#F4BA47"
         case .premiumCard: "#FEF4D8"
+        case .navInk: "#232323"
+        case .navDivider: "#F1F1F1"
         }
     }
 
@@ -72,4 +75,6 @@ enum CCColor {
         endPoint: .trailing
     )
     static let premiumCard = color(.premiumCard)
+    static let navInk = color(.navInk)
+    static let navDivider = color(.navDivider)
 }

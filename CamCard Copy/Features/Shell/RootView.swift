@@ -7,12 +7,17 @@ struct RootView: View {
     @State private var isScanPresented = false
     /// Bumped when a card is saved so CardHolder reloads even if it is already selected.
     @State private var cardHolderRefresh = 0
+    /// Pushed pages hide the tab bar (fix-pushed-page-chrome D2).
+    @State private var tabBarVisibility = TabBarVisibility()
 
     var body: some View {
         VStack(spacing: 0) {
             content
-            MainTabBar(selectedTab: $selectedTab, onScan: { isScanPresented = true })
+            if !tabBarVisibility.isHidden {
+                MainTabBar(selectedTab: $selectedTab, onScan: { isScanPresented = true })
+            }
         }
+        .environment(tabBarVisibility)
         .fullScreenCover(isPresented: $isScanPresented) {
             ScanFlowView(
                 repository: repository,

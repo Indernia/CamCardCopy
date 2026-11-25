@@ -32,13 +32,28 @@ struct CCIconButton: View {
     let systemName: String
     let identifier: String
     let label: String
+    var tint: Color = CCColor.iconInk
     let action: () -> Void
+
+    init(
+        systemName: String,
+        identifier: String,
+        label: String,
+        tint: Color = CCColor.iconInk,
+        action: @escaping () -> Void
+    ) {
+        self.systemName = systemName
+        self.identifier = identifier
+        self.label = label
+        self.tint = tint
+        self.action = action
+    }
 
     var body: some View {
         Button(action: action) {
             Image(systemName: systemName)
                 .font(.system(size: 20))
-                .foregroundStyle(CCColor.iconInk)
+                .foregroundStyle(tint)
                 .frame(width: 44, height: 44)
                 .contentShape(Rectangle())
         }
@@ -51,9 +66,17 @@ struct CCIconButton: View {
 private struct CCPushedNavigationBar: ViewModifier {
     let title: String
     @Environment(\.dismiss) private var dismiss
+    @Environment(TabBarVisibility.self) private var tabBarVisibility: TabBarVisibility?
 
     func body(content: Content) -> some View {
         content
+            .safeAreaInset(edge: .top, spacing: 0) {
+                Rectangle()
+                    .fill(CCColor.navDivider)
+                    .frame(height: 0.5)
+            }
+            .onAppear { tabBarVisibility?.pageAppeared() }
+            .onDisappear { tabBarVisibility?.pageDisappeared() }
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -62,6 +85,7 @@ private struct CCPushedNavigationBar: ViewModifier {
                         systemName: "chevron.left",
                         identifier: "nav.back",
                         label: "Back",
+                        tint: CCColor.navInk,
                         action: { dismiss() }
                     )
                 }

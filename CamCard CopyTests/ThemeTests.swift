@@ -12,7 +12,7 @@ final class ThemeTests: XCTestCase {
             .accent: "#50A6F8", .tabSelected: "#1E1E1E", .tabUnselected: "#989898",
             .scanGradientStart: "#534EF6", .scanGradientEnd: "#873EF6",
             .premiumGradientStart: "#EF8C44", .premiumGradientEnd: "#F4BA47",
-            .premiumCard: "#FEF4D8"
+            .premiumCard: "#FEF4D8", .navInk: "#232323", .navDivider: "#F1F1F1"
         ]
         XCTAssertEqual(expected.count, CCColor.Token.allCases.count)
         for token in CCColor.Token.allCases {
