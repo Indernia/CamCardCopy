@@ -26,5 +26,14 @@ enum AppTab: String, CaseIterable, Identifiable {
         }
     }
 
+    var selectedSystemImage: String {
+        switch self {
+        case .home: "house.fill"
+        case .cardHolder: "person.crop.rectangle.stack.fill"
+        case .tools: "folder.fill"
+        case .settings: "gearshape.fill"
+        }
+    }
+
     var accessibilityIdentifier: String { "tab.\(rawValue)" }
 }

@@ -29,8 +29,9 @@ context: |
   - Every AI result passes through the Edit Card screen before save.
   - Do not reproduce CamCard's illustrations, icons or logos. Use SF Symbols or
     plain placeholders. Match layout, spacing and text, not artwork.
-  - Out of scope: login, premium/paywall, digital card creation, Tools tab
-    features, AI assistant, sync, messages. Tabs may exist as placeholders.
+  - Screens observed in reference/screenshots are replicated visually. Those
+    marked Out or Reference in observations.md are inert visual copies: they
+    never simulate login, payment, sync, AI answers or network calls.
 
 rules:
   proposal:
@@ -44,4 +45,4 @@ rules:
     - Name the files and types touched; state which existing interfaces stay unchanged.
   tasks:
     - Each task ends with the test that proves it.
-    - Last task is always: run the full test suite and report results.
+    - "Last task is always: run the full test suite and report results."

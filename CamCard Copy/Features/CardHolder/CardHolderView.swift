@@ -55,6 +55,7 @@ struct CardHolderView: View {
             .navigationDestination(for: CardRecord.self) { card in
                 CardDetailView(card: card)
             }
+            .appRoutes()
             .task {
                 viewModel.load()
             }

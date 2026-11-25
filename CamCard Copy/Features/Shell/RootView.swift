@@ -30,7 +30,11 @@ struct RootView: View {
     private var content: some View {
         switch selectedTab {
         case .home:
-            HomeView()
+            NavigationStack {
+                HomeView()
+                    .toolbar(.hidden, for: .navigationBar)
+                    .appRoutes()
+            }
         case .cardHolder:
             CardHolderView(repository: repository)
                 .id(cardHolderRefresh)

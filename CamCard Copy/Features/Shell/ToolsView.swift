@@ -19,6 +19,7 @@ struct ToolsView: View {
             }
             .background(Color(.systemBackground))
             .toolbar(.hidden, for: .navigationBar)
+            .appRoutes()
         }
     }
 

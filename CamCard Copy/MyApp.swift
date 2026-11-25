@@ -40,6 +40,7 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             RootView(repository: repository)
+                .preferredColorScheme(.light)
         }
         .modelContainer(container)
     }

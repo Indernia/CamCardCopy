@@ -47,6 +47,7 @@ struct SettingsView: View {
             .scrollContentBackground(.hidden)
             .background(Color(.systemGroupedBackground))
             .navigationTitle("Settings")
+            .appRoutes()
         }
     }
 
