@@ -2,8 +2,8 @@ import SwiftUI
 
 /// P31-S01: the Messages list with its single Biz Tips row (design D4). Inert apart from the row link.
 struct MessagesView: View {
-    private static let pageBackground = Color(hex: "#F2F2F2")
-    private static let rowTitle = Color(hex: "#131213")
+    private static let pageBackground = CCColor.groupedBackground
+    private static let rowTitle = CCColor.textPrimary
     private static let rowSubtitle = Color(hex: "#9F9F9F")
     private static let rowHairline = Color(hex: "#EEEEEE")
     private static let avatarFill = Color(hex: "#FDEEE5")
@@ -52,6 +52,7 @@ struct MessagesView: View {
                     .truncationMode(.tail)
             }
             .padding(.trailing, 14.3)
+            .offset(y: 2.8)
         }
         .frame(height: 78)
         .frame(maxWidth: .infinity)

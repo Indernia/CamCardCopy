@@ -19,7 +19,7 @@ struct CreateCardStepView: View {
             CreateCardProgress(completed: clampedStep)
                 .padding(.top, 7)
             CreateCardHeading()
-                .padding(.top, 14)
+                .padding(.top, 17.8)
             switch clampedStep {
             case 1: stepOne
             case 2: stepTwo
@@ -36,33 +36,33 @@ struct CreateCardStepView: View {
     private var stepOne: some View {
         VStack(spacing: 0) {
             CreateCardSubtitle(text: "Choose the template you want for your digital business card")
-                .padding(.top, 14)
+                .padding(.top, 6.9)
             carousel
-                .padding(.top, 22)
+                .padding(.top, 19.5)
             pageDots
-                .padding(.top, 22)
-            Spacer(minLength: 12)
+                .padding(.top, 21.6)
             NavigationLink(value: AppRoute.createCard(step: 2)) {
                 CreateCardPrimaryLabel(title: "Continue")
             }
             .buttonStyle(.plain)
             .padding(.horizontal, 17.6)
+            .padding(.top, 27.5)
             .accessibilityIdentifier("createCard.continue")
             HStack(spacing: 8) {
                 Text("Already have an account")
                     .font(.system(size: 16, weight: .regular))
-                    .foregroundStyle(Color(hex: "#9A9A9A"))
+                    .foregroundStyle(CCColor.textSecondary)
                 Button {
                     // TODO(P20-S01): not linked from here in the state diagram
                 } label: {
                     Text("Sign in")
                         .font(.system(size: 16, weight: .medium))
-                        .foregroundStyle(Color(hex: "#5F5F5F"))
+                        .foregroundStyle(CCColor.sectionHeader)
                 }
                 .buttonStyle(.plain)
                 .accessibilityIdentifier("createCard.signIn")
             }
-            .padding(.top, 20)
+            .padding(.top, 18.6)
             .padding(.bottom, 14)
         }
     }
@@ -73,15 +73,16 @@ struct CreateCardStepView: View {
                 ForEach(0..<9, id: \.self) { index in
                     CreateCardTemplateCard()
                         .opacity(selectedTemplate == index ? 1 : 0.8)
+                        .padding(.top, 8)
                         .id(index)
                 }
             }
             .scrollTargetLayout()
         }
-        .contentMargins(.horizontal, 71.5, for: .scrollContent)
+        .contentMargins(.horizontal, 79, for: .scrollContent)
         .scrollTargetBehavior(.viewAligned)
         .scrollPosition(id: $selectedTemplate)
-        .frame(height: 430)
+        .frame(height: 425)
         .accessibilityIdentifier("createCard.carousel")
     }
 
@@ -101,7 +102,7 @@ struct CreateCardStepView: View {
     private var stepTwo: some View {
         VStack(spacing: 0) {
             CreateCardSubtitle(text: "Complete your information.", ink: Color(hex: "#191919"))
-                .padding(.top, 14)
+                .padding(.top, 6.9)
             VStack(spacing: 17.5) {
                 CreateCardFilledField(
                     placeholder: "",
@@ -136,10 +137,10 @@ struct CreateCardStepView: View {
                     Text("Scan paper cards")
                 }
                 .font(.system(size: 15, weight: .regular))
-                .foregroundStyle(Color(hex: "#626262"))
+                .foregroundStyle(CCColor.sectionHeader)
             }
             .buttonStyle(.plain)
-            .padding(.top, 25)
+            .padding(.top, 18)
             .accessibilityIdentifier("createCard.scanPaperCards")
             .accessibilityLabel("Scan paper cards")
             Spacer(minLength: 0)
@@ -168,13 +169,13 @@ struct CreateCardStepView: View {
                     text: "Only one step away, Sign in to save your card",
                     ink: Color(hex: "#121212")
                 )
-                .padding(.top, 14)
+                .padding(.top, 6.9)
                 Text("Unregistered camcard email will be registered automatically")
                     .font(.system(size: 15, weight: .regular))
-                    .foregroundStyle(Color(hex: "#989898"))
+                    .foregroundStyle(CCColor.textSecondary)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 25.4)
-                    .padding(.top, 22)
+                    .padding(.top, 31.2)
                 CreateCardFilledField(
                     placeholder: "",
                     floatingLabel: "Email Number",
@@ -182,10 +183,10 @@ struct CreateCardStepView: View {
                     text: $signInEmail
                 )
                 .padding(.horizontal, 25.4)
-                .padding(.top, 20)
+                .padding(.top, 13.9)
                 agreementRow
                     .padding(.horizontal, 25.4)
-                    .padding(.top, 22)
+                    .padding(.top, 15.9)
                 Button {
                     // TODO(P20-S01): sign-in is not built; nothing is sent
                 } label: {
@@ -193,11 +194,15 @@ struct CreateCardStepView: View {
                 }
                 .buttonStyle(.plain)
                 .padding(.horizontal, 25.4)
-                .padding(.top, 42)
+                .padding(.top, 40.1)
                 .accessibilityIdentifier("createCard.signInNext")
                 .accessibilityLabel("Next")
+            }
+        }
+        .scrollDismissesKeyboard(.interactively)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            VStack(spacing: 0) {
                 orContinueWith
-                    .padding(.top, 28)
                 VStack(spacing: 16) {
                     CreateCardOutlineButton(
                         title: "Sign in with phone",
@@ -220,10 +225,10 @@ struct CreateCardStepView: View {
                 }
                 .padding(.horizontal, 25.4)
                 .padding(.top, 20)
-                .padding(.bottom, 24)
+                .padding(.bottom, 3.6)
             }
+            .background(CCColor.sheet)
         }
-        .scrollDismissesKeyboard(.interactively)
     }
 
     private var agreementRow: some View {
@@ -241,7 +246,7 @@ struct CreateCardStepView: View {
             .accessibilityLabel("Agree to terms")
             HStack(spacing: 0) {
                 Text("Agree to ")
-                    .foregroundStyle(Color(hex: "#1E1E1E"))
+                    .foregroundStyle(CCColor.tabSelected)
                 Button {
                     // TODO(P20-S01): no web page is opened
                 } label: {
@@ -250,7 +255,7 @@ struct CreateCardStepView: View {
                 .buttonStyle(.plain)
                 .accessibilityIdentifier("createCard.terms")
                 Text(" and ")
-                    .foregroundStyle(Color(hex: "#1E1E1E"))
+                    .foregroundStyle(CCColor.tabSelected)
                 Button {
                     // TODO(P20-S01): no web page is opened
                 } label: {
@@ -326,7 +331,7 @@ private struct CreateCardTemplateCard: View {
             .padding(.top, 18)
             Spacer(minLength: 0)
         }
-        .frame(width: 250, height: 411)
+        .frame(width: 244, height: 405)
         .background(CCColor.sheet)
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(color: .black.opacity(0.12), radius: 8, y: 3)

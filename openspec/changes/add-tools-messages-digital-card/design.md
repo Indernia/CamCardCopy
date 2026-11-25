@@ -181,6 +181,7 @@ It returns `nil` in release builds (`#if DEBUG`). `ToolsView` switches to `Navig
 
 ## Risks / Trade-offs
 
+- [The iOS 27 system navigation bar on pushed pages is about 15 pt taller than the reference (our divider at 116 pt, the reference's at 150 px), with the chevron and title about 4 pt lower, and the title ink is `#151314` where the reference is `#1E1E1E`] → Accepted by the user (2026-11-25): the system bar stays as is. P31/P32/P33 content is matched relative to the divider, not to the screen top.
 - [The chevron color stays `#1C3F64` if D2 isn't applied] → The Haiku check flags it. It's a one-line shared fix on `main`.
 - [Real `TextField`s on P33 could look like data entry that does something] → Values are never read outside the view, and step 3 sends nothing. Covered by the inert scenarios.
 - [The paged `TabView` carousel might not show neighbouring cards peeking the way the reference does] → Fallback: a horizontal `ScrollView` with `.scrollTargetBehavior(.viewAligned)` and the 250 pt card width. The visual check decides.

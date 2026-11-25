@@ -5,10 +5,10 @@ struct ToolsView: View {
         case recommend, smartSync
     }
 
-    private static let helpInk = Color(hex: "#1C4064")
-    private static let selectedInk = Color(hex: "#1F1F1F")
-    private static let unselectedInk = Color(hex: "#9A9A9A")
-    private static let selectorDivider = Color(hex: "#F2F2F2")
+    private static let helpInk = CCColor.iconInk
+    private static let selectedInk = CCColor.tabSelected
+    private static let unselectedInk = CCColor.textSecondary
+    private static let selectorDivider = CCColor.groupedBackground
     private static let badgeRed = Color(hex: "#EB3324")
 
     @State private var pane: Pane = .recommend
@@ -64,7 +64,7 @@ struct ToolsView: View {
         }
         .padding(.leading, 18)
         .padding(.trailing, 19)
-        .padding(.top, 4)
+        .padding(.bottom, 7)
         .frame(height: 40)
     }
 

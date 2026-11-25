@@ -26,14 +26,14 @@ struct CreateCardHeading: View {
         Text("CREATE YOUR CARD")
             .font(.system(size: 26, weight: .black))
             .italic()
-            .foregroundStyle(Color(hex: "#4FA5F7"))
+            .foregroundStyle(CCColor.accent)
     }
 }
 
 /// Subtitle line used under the heading on every step.
 struct CreateCardSubtitle: View {
     let text: String
-    var ink: Color = Color(hex: "#141414")
+    var ink: Color = CCColor.textPrimary
 
     var body: some View {
         Text(text)

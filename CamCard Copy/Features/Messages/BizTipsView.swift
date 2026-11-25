@@ -13,8 +13,8 @@ struct BizTipsView: View {
                 Text("Sunday")
                     .font(CCFont.secondary)
                     .foregroundStyle(Self.dateInk)
-                    .padding(.top, 14)
-                    .padding(.bottom, 14)
+                    .padding(.top, 18)
+                    .padding(.bottom, 8.5)
                 card
                     .padding(.horizontal, 9)
             }
@@ -32,8 +32,8 @@ struct BizTipsView: View {
                 .font(.system(size: 16, weight: .regular))
                 .foregroundStyle(Self.titleInk)
                 .padding(.leading, 11.2)
-                .padding(.top, 8)
-                .padding(.bottom, 15)
+                .padding(.top, 12.4)
+                .padding(.bottom, 20)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(CCColor.sheet)
