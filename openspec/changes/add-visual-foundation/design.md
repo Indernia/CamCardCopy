@@ -89,7 +89,7 @@ See proposal.md, Why. Current state:
 - Labels `CCFont.tabLabel`. Colors `tabSelected` / `tabUnselected`.
 - `AppTab.selectedSystemImage`: `house.fill`, `person.crop.rectangle.stack.fill`, `folder.fill`, `gearshape.fill`.
 - Each tab button adds `.accessibilityAddTraits(.isSelected)` when selected (for T22).
-- Scan button: 56 pt circle with a `LinearGradient` over `scanGradient`, white `camera.fill` at 22 pt.
+- Scan button: 44 pt circle with a `LinearGradient` over `scanGradient`, white `camera.fill` at 18 pt. Tab icons 18 pt with 6 pt spacing to the label. The row is bottom-aligned with 1 pt bottom padding above the safe area, so icons, labels and the button share a bottom edge about 35 pt above the screen bottom. (Corrected 2026-11-25 after the 5.2 visual check: the first version used a 56 pt button, centered, which sat about 11 pt too high. P00-S01 measures a 43 pt button with its center 58 pt and the Home label 41 pt above the screen bottom.)
 
 The CardHolder outline icon stays `person.crop.rectangle.stack`. The reference's folder-with-person glyph is CamCard artwork.
 

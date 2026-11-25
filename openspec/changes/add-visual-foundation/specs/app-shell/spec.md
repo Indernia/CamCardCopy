@@ -6,7 +6,7 @@
 
 The app SHALL present a tab bar labelled "Home", "CardHolder", "Tools" and "Settings" with a center scan button. Selecting Home, CardHolder, Tools or Settings SHALL show that tab's content. The center scan button SHALL be a button, not a fifth tab selection.
 
-The tab bar SHALL match P00-S01: a white background, 10 pt labels, the selected tab's icon and label in `#1E1E1E` with a filled icon, unselected tabs in `#989898` with an outline icon, and a 56 pt round center scan button filled with the `#534EF6` to `#873EF6` gradient and a white camera symbol. Tab labels, accessibility identifiers and selection behavior SHALL NOT change.
+The tab bar SHALL match P00-S01: a white background, 10 pt labels, the selected tab's icon and label in `#1E1E1E` with a filled icon, unselected tabs in `#989898` with an outline icon, and a 44 pt round center scan button filled with the `#534EF6` to `#873EF6` gradient and a white camera symbol. Icons, labels and the scan button SHALL share a bottom edge about 35 pt above the screen bottom, as measured on P00-S01. Tab labels, accessibility identifiers and selection behavior SHALL NOT change.
 
 #### Scenario: T01 — First launch opens the Home tab
 

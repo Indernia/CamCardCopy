@@ -30,7 +30,7 @@ Read `build/test-output.log` and require `** TEST SUCCEEDED **` before checking 
 ## 5. Tests and visual check
 
 - [x] 5.1 Add `CamCard CopyUITests/T22VisualFoundationUITests.swift` with the three D9 UI tests: tab selection trait, scan button opens the camera, and wired-nothing guard for the Home bell, "Create New Card", CardHolder bell and "Language setting". Verification: `-only-testing:"CamCard CopyUITests/T22VisualFoundationUITests"` passes.
-- [ ] 5.2 Haiku visual check: launch the app on the agent's simulator and screenshot Home. Compare the tab bar region with `reference/screenshots/P00-S01_home-empty.png` (background, label size and colors, filled selected icon, scan gradient). Write findings and the screenshot path to `docs/manual-checks/add-visual-foundation.md`. Fix any measurable mismatch in the tokens (task 2.1's test changes with it). Verification: the checklist shows Pass, or lists only accepted differences (CamCard artwork glyphs).
+- [x] 5.2 Haiku visual check: launch the app on the agent's simulator and screenshot Home. Compare the tab bar region with `reference/screenshots/P00-S01_home-empty.png` (background, label size and colors, filled selected icon, scan gradient). Write findings and the screenshot path to `docs/manual-checks/add-visual-foundation.md`. Fix any measurable mismatch in the tokens (task 2.1's test changes with it). Verification: the checklist shows Pass, or lists only accepted differences (CamCard artwork glyphs).
 
 ## 6. Full suite
 
