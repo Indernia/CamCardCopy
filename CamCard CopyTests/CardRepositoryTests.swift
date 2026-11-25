@@ -104,6 +104,27 @@ final class CardRepositoryTests: XCTestCase {
     }
 
     @MainActor
+    func testT10ExtraPhonesAndEmailsRoundTripAndDefaultToEmpty() throws {
+        for harness in try makeHarnesses() {
+            var withExtras = makeCard()
+            withExtras.extraPhones = ["+1 555 0102", "+1 555 0103"]
+            withExtras.extraEmails = ["second@northwind.example"]
+            let plain = makeCard()
+
+            try harness.repository.create(withExtras)
+            try harness.repository.create(plain)
+
+            let fetchedExtras = try XCTUnwrap(try harness.repository.fetch(id: withExtras.id), harness.name)
+            let fetchedPlain = try XCTUnwrap(try harness.repository.fetch(id: plain.id), harness.name)
+
+            XCTAssertEqual(fetchedExtras.extraPhones, ["+1 555 0102", "+1 555 0103"], harness.name)
+            XCTAssertEqual(fetchedExtras.extraEmails, ["second@northwind.example"], harness.name)
+            XCTAssertEqual(fetchedPlain.extraPhones, [], harness.name)
+            XCTAssertEqual(fetchedPlain.extraEmails, [], harness.name)
+        }
+    }
+
+    @MainActor
     func testT18U2NotesRoundTripOldestFirst() throws {
         for harness in try makeHarnesses() {
             let older = NoteRecord(

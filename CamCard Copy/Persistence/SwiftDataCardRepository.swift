@@ -120,6 +120,8 @@ final class SwiftDataCardRepository: CardRepository {
         card.email = record.email
         card.website = record.website
         card.address = record.address
+        card.extraPhones = record.extraPhones
+        card.extraEmails = record.extraEmails
         card.createdAt = record.createdAt
     }
 
@@ -137,6 +139,8 @@ final class SwiftDataCardRepository: CardRepository {
             email: card.email,
             website: card.website,
             address: card.address,
+            extraPhones: card.extraPhones,
+            extraEmails: card.extraEmails,
             groups: card.groups
                 .map { GroupRecord(id: $0.id, name: $0.name) }
                 .sorted { $0.name < $1.name },

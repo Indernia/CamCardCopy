@@ -2,6 +2,7 @@ import SwiftUI
 
 enum ScanRoute: Hashable {
     case editCard(ScannedCardImage)
+    case cardSaved(CardRecord)
 }
 
 struct ScanFlowView: View {
@@ -9,13 +10,21 @@ struct ScanFlowView: View {
     @State private var viewModel: CameraViewModel
     @State private var path: [ScanRoute] = []
     private let configuration: LaunchConfiguration
+    private let saver: CardSaver
+    private let onDone: () -> Void
 
-    init(configuration: LaunchConfiguration = .current) {
+    init(
+        repository: CardRepository,
+        configuration: LaunchConfiguration = .current,
+        onDone: @escaping () -> Void
+    ) {
         self.configuration = configuration
+        self.saver = CardSaver(repository: repository)
+        self.onDone = onDone
         let authorization: CameraAuthorizationProviding
         if configuration.forcesCameraDenied {
             authorization = StaticCameraAuthorization(state: .denied)
-        } else if configuration.scanFixture != .camera {
+        } else if configuration.scanFixture != .camera || configuration.recognizedImagePath != nil {
             // Scan fixtures bypass the camera entirely, so report authorized to
             // keep the shutter usable on the no-camera simulator.
             authorization = StaticCameraAuthorization(state: .authorized)
@@ -39,8 +48,22 @@ struct ScanFlowView: View {
             .navigationDestination(for: ScanRoute.self) { route in
                 switch route {
                 case let .editCard(image):
-                    EditCardView(image: image, onRetake: { path.removeLast() })
-                        .toolbar(.visible, for: .navigationBar)
+                    EditCardView(
+                        image: image,
+                        saver: saver,
+                        onRetake: { path.removeLast() },
+                        onSaved: { record in path.append(.cardSaved(record)) }
+                    )
+                    .toolbar(.visible, for: .navigationBar)
+                case let .cardSaved(card):
+                    CardSavedView(
+                        card: card,
+                        onDone: onDone,
+                        // Back to the camera for the next card; nothing more is saved.
+                        onTakeNext: { path.removeAll() }
+                    )
+                    .navigationBarBackButtonHidden(true)
+                    .toolbar(.visible, for: .navigationBar)
                 }
             }
         }

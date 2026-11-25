@@ -82,7 +82,7 @@ struct CameraView: View {
                 // so the NavigationStack push is not dropped mid-animation.
                 guard let data = pendingAlbumData else { return }
                 pendingAlbumData = nil
-                Task { await handleScan(data) }
+                Task { await handleScan(data, source: .album) }
             }
         }
         .alert("Card area not found", isPresented: $showsCardNotFoundAlert) {
@@ -99,6 +99,13 @@ struct CameraView: View {
 
     private func triggerShutter() {
         guard viewModel.canStartScan else { return }
+
+        if let path = configuration.recognizedImagePath {
+            guard let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else { return }
+            Task { await handleScan(data, source: .camera) }
+            return
+        }
+
         Task {
             let data: Data?
             switch configuration.scanFixture {
@@ -110,31 +117,46 @@ struct CameraView: View {
                 data = await session.capturePhoto()
             }
             guard let data else { return }
-            await handleScan(data)
+            await handleScan(data, source: .camera)
         }
     }
 
-    private func handleScan(_ data: Data) async {
+    private func handleScan(_ data: Data, source: ScanSource) async {
         viewModel.beginProcessing()
-        defer { viewModel.endProcessing() }
-
+        let detectedImage: ScannedCardImage?
         do {
-            if let image = try await handoff.scannedImage(from: data) {
-                onScanned(image)
-            } else {
-                pendingImage = ScannedCardImage(originalImage: data, processedImage: nil)
-                showsCardNotFoundAlert = true
-            }
+            detectedImage = try await handoff.detectedImage(from: data, source: source)
         } catch {
-            pendingImage = ScannedCardImage(originalImage: data, processedImage: nil)
-            showsCardNotFoundAlert = true
+            detectedImage = nil
         }
+        viewModel.endProcessing()
+
+        guard let detectedImage else {
+            pendingImage = ScannedCardImage(
+                originalImage: data,
+                processedImage: nil,
+                source: source
+            )
+            showsCardNotFoundAlert = true
+            return
+        }
+
+        viewModel.beginRecognition()
+        let recognizedImage = await handoff.recognizedImage(detectedImage)
+        viewModel.endRecognition()
+        onScanned(recognizedImage)
     }
 
     private func continueSaving() {
         guard let image = pendingImage else { return }
         pendingImage = nil
-        onScanned(image)
+
+        Task {
+            viewModel.beginRecognition()
+            let recognizedImage = await handoff.recognizedImage(image)
+            viewModel.endRecognition()
+            onScanned(recognizedImage)
+        }
     }
 
     private var topBar: some View {
@@ -185,11 +207,19 @@ struct CameraView: View {
             frameContent
                 .clipShape(RoundedRectangle(cornerRadius: 16))
 
-            if viewModel.isProcessingCard {
-                ProgressView()
-                    .progressViewStyle(.circular)
-                    .tint(.white)
-                    .accessibilityIdentifier("scan.processing")
+            if viewModel.isBusy {
+                VStack(spacing: 8) {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .tint(.white)
+                    if viewModel.isRecognizing {
+                        Text("Recognizing…")
+                            .font(.subheadline.weight(.medium))
+                            .foregroundStyle(.white)
+                            .accessibilityIdentifier("scan.recognizing")
+                    }
+                }
+                .accessibilityIdentifier("scan.processing")
             }
 
             VStack {
@@ -283,8 +313,8 @@ struct CameraView: View {
     private var bottomBar: some View {
         HStack {
             // Album never touches the camera, so it stays available without
-            // camera access; only detection in progress disables it. The
-            // alert state swaps it for an empty slot to keep the shutter
+            // camera access; detection or recognition in progress disables it.
+            // The alert state swaps it for an empty slot to keep the shutter
             // centered while removing Album from the accessibility tree.
             if showsCardNotFoundAlert {
                 Color.clear.frame(width: 44, height: 44)
@@ -297,8 +327,8 @@ struct CameraView: View {
                         .foregroundStyle(.white)
                         .frame(width: 44, height: 44)
                 }
-                .disabled(viewModel.isProcessingCard)
-                .opacity(viewModel.isProcessingCard ? 0.4 : 1)
+                .disabled(viewModel.isBusy)
+                .opacity(viewModel.isBusy ? 0.4 : 1)
                 .accessibilityIdentifier("scan.album")
                 .accessibilityLabel("Album")
             }

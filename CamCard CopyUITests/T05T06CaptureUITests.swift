@@ -11,7 +11,7 @@ final class T05T06CaptureUITests: XCTestCase {
         XCTAssertTrue(app.navigationBars["Edit Card"].waitForExistence(timeout: 15))
         XCTAssertTrue(app.buttons["Retake"].exists)
         XCTAssertTrue(app.buttons["Save"].exists)
-        XCTAssertFalse(app.buttons["Save"].isEnabled, "Save stays disabled in the shell")
+        XCTAssertTrue(app.buttons["Save"].isEnabled, "Save is enabled once saving exists")
         XCTAssertTrue(app.staticTexts["Full Name"].exists)
     }
 

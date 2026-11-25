@@ -35,6 +35,8 @@ nonisolated struct CardRecord: Identifiable, Equatable, Hashable, Sendable {
     var email: String?
     var website: String?
     var address: String?
+    var extraPhones: [String]
+    var extraEmails: [String]
     var groups: [GroupRecord]
     var notes: [NoteRecord]
     var createdAt: Date
@@ -52,6 +54,8 @@ nonisolated struct CardRecord: Identifiable, Equatable, Hashable, Sendable {
         email: String? = nil,
         website: String? = nil,
         address: String? = nil,
+        extraPhones: [String] = [],
+        extraEmails: [String] = [],
         groups: [GroupRecord] = [],
         notes: [NoteRecord] = [],
         createdAt: Date = .now
@@ -68,6 +72,8 @@ nonisolated struct CardRecord: Identifiable, Equatable, Hashable, Sendable {
         self.email = email
         self.website = website
         self.address = address
+        self.extraPhones = extraPhones
+        self.extraEmails = extraEmails
         self.groups = groups
         self.notes = notes
         self.createdAt = createdAt

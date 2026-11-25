@@ -10,6 +10,21 @@ final class LaunchConfigurationTests: XCTestCase {
         XCTAssertEqual(configuration.scanFixture, .camera)
         XCTAssertFalse(configuration.forcesCameraDenied)
         XCTAssertNil(configuration.photoAccessOverride)
+        XCTAssertNil(configuration.recognizedImagePath)
+    }
+
+    func testRecognitionHookArgument() {
+        XCTAssertEqual(
+            LaunchConfiguration(arguments: [
+                "-uiTestRecognizeDatasetImage",
+                "/tmp/card.png"
+            ]).recognizedImagePath,
+            "/tmp/card.png"
+        )
+        XCTAssertNil(
+            LaunchConfiguration(arguments: ["-uiTestRecognizeDatasetImage"]).recognizedImagePath,
+            "A path is required after the hook flag"
+        )
     }
 
     func testScanFixtureArguments() {

@@ -16,4 +16,11 @@
   reference/screenshots/ by its state ID.
 - After each archived change, append to docs/ai-log.md: change name, what you
   generated, what I corrected, test results.
-- Run tests with exactly: `xcodebuild test -project "CamCard Copy.xcodeproj" -scheme "CamCard Copy" -destination "platform=iOS Simulator,name=iPhone 17"`
+- Run tests with exactly: `xcodebuild test -project "CamCard Copy.xcodeproj" -scheme "CamCard Copy" -destination "platform=iOS Simulator,name=iPhone 17" -collect-test-diagnostics never`
+  (`-collect-test-diagnostics never` skips the up-to-10-minute sysdiagnose
+  xcodebuild otherwise collects after any failure. Add it to every
+  xcodebuild test / test-without-building invocation, including targeted
+  `-only-testing` runs.)
+- TEMPORARY (2026-11-25, while on battery / Low Power Mode): append
+  `-parallel-testing-worker-count 3` to full-suite runs. Remove this line
+  once the Mac is back on power.

@@ -1,14 +1,28 @@
 import Foundation
 import Observation
 
+nonisolated enum RecognitionPhase: Equatable, Sendable {
+    case idle
+    case recognizing
+}
+
 @Observable
 @MainActor
 final class CameraViewModel {
     private(set) var permissionState: CameraPermissionState = .notDetermined
     private(set) var isProcessingCard = false
+    private(set) var recognitionPhase: RecognitionPhase = .idle
+
+    var isRecognizing: Bool {
+        recognitionPhase == .recognizing
+    }
+
+    var isBusy: Bool {
+        isProcessingCard || recognitionPhase != .idle
+    }
 
     var canStartScan: Bool {
-        permissionState == .authorized && !isProcessingCard
+        permissionState == .authorized && !isBusy
     }
 
     private let authorization: CameraAuthorizationProviding
@@ -33,5 +47,13 @@ final class CameraViewModel {
 
     func endProcessing() {
         isProcessingCard = false
+    }
+
+    func beginRecognition() {
+        recognitionPhase = .recognizing
+    }
+
+    func endRecognition() {
+        recognitionPhase = .idle
     }
 }

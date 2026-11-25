@@ -33,6 +33,15 @@ struct CardHolderView: View {
             .navigationTitle("CardHolder")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        // TODO(P31-S01)
+                    } label: {
+                        Image(systemName: "bell")
+                    }
+                    .accessibilityIdentifier("cardholder.bell")
+                    .accessibilityLabel("Notifications")
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         // TODO(P01-S08)

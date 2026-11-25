@@ -120,8 +120,10 @@ Modified:
 - `CamCard Copy/Features/Scan/ScanHandoff.swift` — recognition stage (D3)
 - `CamCard Copy/Features/Scan/CameraViewModel.swift` — `recognitionPhase` (D4)
 - `CamCard Copy/Features/Scan/CameraView.swift` — progress overlay (D4)
+- `CamCard Copy/Features/Scan/ScanFlowView.swift` — report camera authorization for the DEBUG hook so the shutter is usable on the simulator (D6)
 - `CamCard Copy/Features/EditCard/EditCardView.swift` — editable populated rows (D5)
-- `CamCard Copy/LaunchConfiguration.swift` — `-uiTestRecognizeDatasetImage` hook (D6)
+- `CamCard Copy/Support/LaunchConfiguration.swift` — `-uiTestRecognizeDatasetImage` hook (D6)
+- `CamCard CopyTests/ScanHandoffTests.swift`, `CamCard CopyTests/CameraPermissionTests.swift` if needed, `CamCard CopyTests/LaunchConfigurationTests.swift` — updated and new tests for D3, D4 and D6
 
 Nothing else. Unrelated files stay untouched (project rule).
 

@@ -15,6 +15,8 @@ final class BusinessCard {
     var email: String?
     var website: String?
     var address: String?
+    var extraPhones: [String] = []
+    var extraEmails: [String] = []
     @Relationship(deleteRule: .nullify, inverse: \CardGroup.cards) var groups: [CardGroup]
     @Relationship(deleteRule: .cascade, inverse: \Note.card) var notes: [Note]
     var createdAt: Date
@@ -32,6 +34,8 @@ final class BusinessCard {
         email: String? = nil,
         website: String? = nil,
         address: String? = nil,
+        extraPhones: [String] = [],
+        extraEmails: [String] = [],
         groups: [CardGroup] = [],
         notes: [Note] = [],
         createdAt: Date = .now
@@ -48,6 +52,8 @@ final class BusinessCard {
         self.email = email
         self.website = website
         self.address = address
+        self.extraPhones = extraPhones
+        self.extraEmails = extraEmails
         self.groups = groups
         self.notes = notes
         self.createdAt = createdAt
