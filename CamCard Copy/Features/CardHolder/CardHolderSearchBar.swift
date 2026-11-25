@@ -37,6 +37,9 @@ struct CardHolderSearchBar: View {
 
                 Button("Cancel") {
                     isFocused = false
+                    UIApplication.shared.sendAction(
+                        #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil
+                    )
                     viewModel.cancelSearch()
                 }
                 .font(CCFont.row)
@@ -65,7 +68,7 @@ struct CardHolderSearchBar: View {
             }
         }
         .padding(.horizontal, 16)
-        .padding(.top, 8)
+        .padding(.top, 1)
         .padding(.bottom, 17)
     }
 }

@@ -22,10 +22,11 @@ struct CardHolderView: View {
                 ToolbarItem(placement: .topBarLeading) {
                     NavigationLink(value: AppRoute.messages) {
                         Image(systemName: "bell")
-                            .font(.system(size: 20))
+                            .font(.system(size: 13))
                             .foregroundStyle(CCColor.iconInk)
                             .frame(width: 44, height: 44)
                             .contentShape(Rectangle())
+                            .offset(x: -10, y: -5)
                     }
                     .buttonStyle(.plain)
                     .accessibilityIdentifier("cardholder.bell")
@@ -36,6 +37,7 @@ struct CardHolderView: View {
                     Text("CardHolder")
                         .font(CCFont.navTitle)
                         .foregroundStyle(CCColor.textPrimary)
+                        .offset(y: -5)
                 }
                 .sharedBackgroundVisibility(.hidden)
                 ToolbarItem(placement: .topBarTrailing) {
@@ -63,10 +65,11 @@ struct CardHolderView: View {
             }
         } label: {
             Image(systemName: "plus.circle")
-                .font(.system(size: 20))
+                .font(.system(size: 16.5))
                 .foregroundStyle(CCColor.iconInk)
                 .frame(width: 44, height: 44)
                 .contentShape(Rectangle())
+                .offset(x: 17, y: -5)
         }
         .accessibilityIdentifier("cardholder.add")
         .accessibilityLabel("Add card")
@@ -78,7 +81,7 @@ struct CardHolderView: View {
                 .font(.system(size: 16))
                 .foregroundStyle(CCColor.textPrimary)
                 .padding(.horizontal, 16)
-                .padding(.top, 15)
+                .padding(.top, 17)
                 .padding(.bottom, 8)
             if viewModel.cards.isEmpty {
                 emptyState
@@ -121,17 +124,17 @@ struct CardHolderView: View {
             Image(systemName: "person.crop.rectangle.stack")
                 .font(.system(size: 56))
                 .foregroundStyle(CCColor.textSecondary)
-                .padding(.top, 64)
+                .padding(.top, 41)
             Text("No cards")
                 .font(CCFont.rowEmphasis)
                 .foregroundStyle(CCColor.textPrimary)
-                .padding(.top, 43)
+                .padding(.top, 38)
             Text("You can use the business card recognition function to upload business cards and efficiently manage your contacts")
                 .font(CCFont.secondary)
                 .foregroundStyle(CCColor.textSecondary)
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: 272)
-                .padding(.top, 14)
+                .padding(.top, 11)
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity)

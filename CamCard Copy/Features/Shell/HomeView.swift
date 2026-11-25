@@ -6,9 +6,9 @@ struct HomeView: View {
             VStack(spacing: 0) {
                 topBar
                 promoRow
-                    .padding(.top, 23)
+                    .padding(.top, 21)
             }
-            .padding(.top, 8)
+            .padding(.top, 0)
             .padding(.bottom, 17)
         } content: {
             ScrollView {
@@ -25,7 +25,7 @@ struct HomeView: View {
         HStack(spacing: 0) {
             NavigationLink(value: AppRoute.messages) {
                 Image(systemName: "bell")
-                    .font(.system(size: 20))
+                    .font(.system(size: 16))
                     .foregroundStyle(CCColor.iconInk)
                     .frame(width: 34, height: 34)
                     .contentShape(Rectangle())
@@ -33,7 +33,7 @@ struct HomeView: View {
             .buttonStyle(.plain)
             .accessibilityIdentifier("home.bell")
             .accessibilityLabel("Notifications")
-            .padding(.trailing, 8)
+            .padding(.trailing, 6)
 
             Button {
                 // TODO(P00-S03): opening CardHolder search needs a frozen RootView/AppRoute edit
@@ -59,7 +59,7 @@ struct HomeView: View {
                 Image(systemName: "crown.fill")
                     .font(.system(size: 20))
                     .foregroundStyle(Color(hex: "#F5C518"))
-                    .frame(width: 40, height: 34)
+                    .frame(width: 32, height: 34)
                     .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
@@ -70,7 +70,7 @@ struct HomeView: View {
                 // TODO(P00-S01) ASSUMPTION: the stats destination was not captured
             } label: {
                 Image(systemName: "chart.bar")
-                    .font(.system(size: 20))
+                    .font(.system(size: 15))
                     .foregroundStyle(CCColor.iconInk)
                     .frame(width: 42, height: 34)
                     .contentShape(Rectangle())
@@ -79,7 +79,7 @@ struct HomeView: View {
             .accessibilityIdentifier("home.stats")
             .accessibilityLabel("Stats")
         }
-        .padding(.leading, 8)
+        .padding(.leading, 10)
         .padding(.trailing, 5)
     }
 
@@ -97,7 +97,7 @@ struct HomeView: View {
             promoCard(
                 icon: "viewfinder",
                 iconBackground: Color(hex: "#F7F2FE"),
-                iconColor: Color(hex: "#873EF6"),
+                iconColor: CCColor.color(.scanGradientEnd),
                 title: "High Accuracy",
                 subtitle: "99.99% Accuracy",
                 identifier: "home.promo.highAccuracy"
@@ -164,7 +164,7 @@ struct HomeView: View {
             Image(systemName: "rectangle.on.rectangle")
                 .font(.system(size: 64))
                 .foregroundStyle(CCColor.textSecondary)
-                .padding(.top, 120)
+                .padding(.top, 128)
 
             // Two lines broken after "yet." with one accessibility string (design D4).
             VStack(spacing: 0) {
@@ -177,7 +177,7 @@ struct HomeView: View {
             .accessibilityElement(children: .ignore)
             .accessibilityLabel("No cards yet. Create a new one!")
             .accessibilityAddTraits(.isStaticText)
-            .padding(.top, 40)
+            .padding(.top, 53)
 
             NavigationLink(value: AppRoute.createCard(step: 1)) {
                 HStack(spacing: 8) {
@@ -197,7 +197,7 @@ struct HomeView: View {
             .buttonStyle(.plain)
             .accessibilityIdentifier("home.digitalCard.create")
             .accessibilityLabel("Create New Card")
-            .padding(.top, 24)
+            .padding(.top, 26)
             .padding(.bottom, 24)
         }
         .padding(.horizontal, 16)
