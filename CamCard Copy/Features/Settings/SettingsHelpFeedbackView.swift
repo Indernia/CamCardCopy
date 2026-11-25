@@ -34,12 +34,13 @@ struct SettingsHelpFeedbackView: View {
                                     .font(CCFont.row)
                                     .foregroundStyle(CCColor.textPrimary)
                                     .multilineTextAlignment(.leading)
+                                    .lineSpacing(3)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 SettingsChevron()
                             }
                             .padding(.horizontal, 16)
-                            .padding(.vertical, 12)
-                            .frame(minHeight: 50)
+                            .padding(.vertical, 13)
+                            .frame(minHeight: 44)
                             .contentShape(Rectangle())
                         }
                         .buttonStyle(.plain)
@@ -111,6 +112,6 @@ struct SettingsHelpFeedbackView: View {
         .padding(.horizontal, 16)
         .frame(height: 40)
         .frame(maxWidth: .infinity)
-        .background(Color(hex: "#F2F2F2"))
+        .background(CCColor.groupedBackground)
     }
 }

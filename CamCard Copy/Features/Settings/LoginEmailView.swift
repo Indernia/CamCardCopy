@@ -7,14 +7,28 @@ struct LoginEmailView: View {
     private let socialBorder = Color(hex: "#D3D3D3")
 
     var body: some View {
+        GeometryReader { proxy in
+            ScrollView {
+                form(minHeight: proxy.size.height)
+            }
+            .scrollDismissesKeyboard(.interactively)
+        }
+        .background(Color.white)
+        .ccPushedNavigationBar(title: "")
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("settings.page.login")
+    }
+
+    private func form(minHeight: CGFloat) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             Text("Login via email")
                 .font(.system(size: 24, weight: .medium))
                 .foregroundStyle(CCColor.textPrimary)
-                .padding(.top, 36)
+                .padding(.top, 20)
             Text("The Unregistered mailbox will be automatically registered")
                 .font(CCFont.row)
                 .foregroundStyle(CCColor.textSecondary)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, 6)
 
             TextField(
@@ -72,14 +86,15 @@ struct LoginEmailView: View {
             .accessibilityIdentifier("settings.login.next")
             .accessibilityLabel("Next")
 
-            Spacer(minLength: 24)
+            Color.clear.frame(height: max(24, minHeight - 587))
 
             HStack(spacing: 14) {
-                Rectangle().fill(Color(hex: "#F0F0F0")).frame(height: 1)
+                Rectangle().fill(CCColor.groupedBackground).frame(height: 1)
                 Text("Or continue with")
                     .font(CCFont.secondary)
                     .foregroundStyle(CCColor.textSecondary)
-                Rectangle().fill(Color(hex: "#F0F0F0")).frame(height: 1)
+                    .fixedSize()
+                Rectangle().fill(CCColor.groupedBackground).frame(height: 1)
             }
             .padding(.horizontal, 24)
 
@@ -94,11 +109,7 @@ struct LoginEmailView: View {
             .padding(.bottom, 8)
         }
         .padding(.horizontal, 24)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .background(Color.white)
-        .ccPushedNavigationBar(title: "")
-        .accessibilityElement(children: .contain)
-        .accessibilityIdentifier("settings.page.login")
+        .frame(maxWidth: .infinity, minHeight: minHeight, alignment: .topLeading)
     }
 
     private func socialButton<Icon: View>(_ title: String, id: String, @ViewBuilder icon: () -> Icon) -> some View {

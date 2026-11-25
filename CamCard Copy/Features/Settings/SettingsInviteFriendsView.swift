@@ -13,7 +13,7 @@ struct SettingsInviteFriendsView: View {
                         Circle().fill(SettingsStyle.premiumCircle)
                         Image(systemName: "crown.fill")
                             .font(.system(size: 44))
-                            .foregroundStyle(Color(hex: "#F4BA47"))
+                            .foregroundStyle(CCColor.color(.premiumGradientEnd))
                     }
                     .frame(width: 96, height: 96)
                     Text("Invite Friends")
@@ -59,7 +59,7 @@ struct SettingsInviteFriendsView: View {
                     VStack(spacing: 8) {
                         Image(systemName: "crown.fill")
                             .font(.system(size: 26))
-                            .foregroundStyle(Color(hex: "#F4BA47"))
+                            .foregroundStyle(CCColor.color(.premiumGradientEnd))
                         Text(tile.0)
                             .font(CCFont.secondary)
                             .foregroundStyle(CCColor.textPrimary)
@@ -118,7 +118,7 @@ struct SettingsInviteFriendsView: View {
             Spacer(minLength: 0)
         }
         .padding(.horizontal, 20)
-        .padding(.top, 16)
+        .padding(.top, 24)
         .padding(.bottom, 24)
         .frame(maxWidth: .infinity)
         .background(
@@ -137,7 +137,7 @@ struct SettingsInviteFriendsView: View {
                 icon()
                     .frame(width: 52, height: 52)
                     .background(Circle().fill(.white))
-                    .overlay(Circle().stroke(Color(hex: "#EEEEEE"), lineWidth: 1))
+                    .overlay(Circle().stroke(CCColor.groupedBackground, lineWidth: 1))
                 Text(title)
                     .font(CCFont.secondary)
                     .foregroundStyle(CCColor.textPrimary)

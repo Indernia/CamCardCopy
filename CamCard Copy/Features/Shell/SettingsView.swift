@@ -16,7 +16,7 @@ struct SettingsView: View {
                 ScrollView {
                     VStack(spacing: 0) {
                         signInCard
-                        premiumCard.padding(.top, 16)
+                        premiumCard.padding(.top, 15)
                         sectionHeader("APP SETTINGS")
                         SettingsGroup {
                             routeRow("Account and Sync", route: .settings(.accountSync), id: "accountAndSync")
@@ -56,7 +56,7 @@ struct SettingsView: View {
                         }
                     }
                     .padding(.horizontal, 16)
-                    .padding(.top, 16)
+                    .padding(.top, 25)
                     .padding(.bottom, 24)
                 }
             }
@@ -71,7 +71,7 @@ struct SettingsView: View {
             .font(CCFont.sectionHeader)
             .foregroundStyle(CCColor.sectionHeader)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.top, 30)
+            .padding(.top, 31)
             .padding(.bottom, 12)
     }
 
@@ -85,7 +85,7 @@ struct SettingsView: View {
     }
 
     private var signInCard: some View {
-        VStack(spacing: 18) {
+        VStack(spacing: 23) {
             NavigationLink(value: AppRoute.login) {
                 HStack(spacing: 8) {
                     Text("Sign in to access more features")
@@ -112,8 +112,8 @@ struct SettingsView: View {
             }
         }
         .padding(.horizontal, 16)
-        .padding(.top, 22)
-        .padding(.bottom, 18)
+        .padding(.top, 28)
+        .padding(.bottom, 13)
         .background(RoundedRectangle(cornerRadius: 12).fill(CCColor.groupedCard))
     }
 
@@ -121,13 +121,13 @@ struct SettingsView: View {
         content()
             .font(.system(size: 20))
             .foregroundStyle(Color(hex: "#4A4A4A"))
-            .frame(width: 41, height: 40)
+            .frame(width: 41, height: 42)
             .background(RoundedRectangle(cornerRadius: 10).fill(.white))
             .frame(maxWidth: .infinity)
     }
 
     private var premiumCard: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 25) {
             HStack(spacing: 8) {
                 Image(systemName: "crown.fill")
                     .font(.system(size: 18))
@@ -161,13 +161,14 @@ struct SettingsView: View {
             }
         }
         .padding(.horizontal, 16)
-        .padding(.vertical, 18)
+        .padding(.top, 21)
+        .padding(.bottom, 24)
         .background(RoundedRectangle(cornerRadius: 12).fill(CCColor.premiumCard))
     }
 
     private func premiumItem(_ title: String, symbol: String, identifier: String) -> some View {
         NavigationLink(value: AppRoute.paywall) {
-            VStack(spacing: 8) {
+            VStack(spacing: 4) {
                 Image(systemName: symbol)
                     .font(.system(size: 18, weight: .medium))
                     .foregroundStyle(SettingsStyle.premiumInk)

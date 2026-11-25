@@ -5,12 +5,12 @@ struct SettingsPermissionsView: View {
     var body: some View {
         SettingsPageScaffold(title: "System permissions", identifier: "settings.page.permissions") {
             HStack(alignment: .center, spacing: 12) {
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: 4) {
                     Text("Ad tracking permission")
                         .font(.system(size: 16))
                         .foregroundStyle(CCColor.textPrimary)
                     Text("Personalized ads, cross-app tracking, attribution, ad fraud prevention")
-                        .font(CCFont.row)
+                        .font(.system(size: 14))
                         .foregroundStyle(Color(hex: "#6B6B6B"))
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -29,7 +29,8 @@ struct SettingsPermissionsView: View {
                 .accessibilityIdentifier("settings.permissions.settings")
                 .accessibilityLabel("Settings")
             }
-            .padding(16)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 21)
             .background(RoundedRectangle(cornerRadius: 10).fill(Color.white))
             .padding(.horizontal, 15)
             .padding(.top, 25)

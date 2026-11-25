@@ -9,7 +9,8 @@ struct SettingsPrivacyView: View {
                     title: "AI Data Processing Consent",
                     isOn: false,
                     labelIdentifier: "settings.privacy.aiConsent",
-                    toggleIdentifier: "settings.privacy.aiConsent.toggle"
+                    toggleIdentifier: "settings.privacy.aiConsent.toggle",
+                    rowHeight: 59
                 )
             }
             // TODO(P14-S01): "Third Party List" is not a tappable link in the capture.

@@ -31,7 +31,7 @@ struct SettingsPIChecklistView: View {
             VStack(spacing: 1) {
                 Text(tableTitle)
                     .font(.system(size: 18, weight: .bold))
-                    .foregroundStyle(Color(hex: "#222222"))
+                    .foregroundStyle(CCColor.navInk)
                     .multilineTextAlignment(.center)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 18)
@@ -47,9 +47,12 @@ struct SettingsPIChecklistView: View {
             }
             .padding(1)
             .background(border)
-            .padding(.horizontal, 16)
-            .padding(.top, 20)
+            .padding(.horizontal, 21)
+            .padding(.top, 45.5)
             .padding(.bottom, 24)
+            .background(alignment: .top) {
+                CCColor.groupedBackground.frame(height: 26)
+            }
         }
         .background(Color.white)
         .ccPushedNavigationBar(title: tableTitle)
@@ -62,7 +65,7 @@ struct SettingsPIChecklistView: View {
             ForEach(cells, id: \.self) { cell in
                 Text(cell)
                     .font(.system(size: 15, weight: bold ? .bold : .regular))
-                    .foregroundStyle(bold ? Color(hex: "#222222") : Color(hex: "#666666"))
+                    .foregroundStyle(bold ? CCColor.navInk : Color(hex: "#666666"))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 12)

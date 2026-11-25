@@ -5,7 +5,7 @@ enum SettingsStyle {
     static let value = Color(hex: "#A0A0A0")
     static let chevron = Color(hex: "#A1A1A1")
     static let blueTitle = Color(hex: "#4DADF7")
-    static let premiumInk = Color(hex: "#EF8C44")
+    static let premiumInk = CCColor.color(.premiumGradientStart)
     static let premiumCircle = Color(hex: "#FCE8AD")
 }
 
@@ -106,6 +106,7 @@ struct SettingsToggleRow: View {
     let isOn: Bool
     let labelIdentifier: String
     let toggleIdentifier: String
+    var rowHeight: CGFloat = 50
 
     var body: some View {
         HStack {
@@ -120,7 +121,7 @@ struct SettingsToggleRow: View {
                 .accessibilityIdentifier(toggleIdentifier)
         }
         .padding(.horizontal, 16)
-        .frame(minHeight: 50)
+        .frame(minHeight: rowHeight)
     }
 }
 

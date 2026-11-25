@@ -114,9 +114,9 @@ struct UpgradePlansView: View {
             } label: {
                 HStack(spacing: 8) {
                     Image(systemName: "diamond.fill").font(.system(size: 18))
-                    Text("PRO").font(.system(size: 24, weight: .bold))
+                    Text("PRO").font(.system(size: 22, weight: .bold))
                 }
-                .foregroundStyle(proPurple)
+                .foregroundStyle(proPurple.opacity(0.75))
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
                 .background(Color(hex: "#F4EFFB"))
@@ -135,6 +135,7 @@ struct UpgradePlansView: View {
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
                 .background(Color(hex: "#F7F5F5"))
+                .overlay { SelectedTabOutline().stroke(Color(hex: "#F1D58F"), lineWidth: 1.5) }
             }
             .buttonStyle(.plain)
             .accessibilityIdentifier("settings.paywall.tab.premium")
@@ -227,12 +228,14 @@ struct UpgradePlansView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .frame(height: 62)
                 .background(Color.white)
-                .overlay(alignment: .top) { Rectangle().fill(Color(hex: "#EFEFEF")).frame(height: 1) }
+                .overlay(alignment: .top) { Rectangle().fill(CCColor.groupedBackground).frame(height: 1) }
             // TODO(P21-S01): rows and columns below and right of the captured area were not captured.
             HStack(spacing: 0) {
                 Text("Business Card Scanner")
                     .font(CCFont.secondary)
                     .foregroundStyle(Color(hex: "#7A7A7A"))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
                     .padding(.leading, 18)
                     .frame(width: 140, alignment: .leading)
                     .frame(maxHeight: .infinity)
@@ -249,7 +252,7 @@ struct UpgradePlansView: View {
                     .background(Color(hex: "#FDF1D2"))
             }
             .frame(height: 62)
-            .overlay(alignment: .top) { Rectangle().fill(Color(hex: "#EFEFEF")).frame(height: 1) }
+            .overlay(alignment: .top) { Rectangle().fill(CCColor.groupedBackground).frame(height: 1) }
         }
         .clipShape(RoundedRectangle(cornerRadius: 8))
     }
@@ -285,5 +288,22 @@ struct UpgradePlansView: View {
         )
         .accessibilityIdentifier("settings.paywall.continue")
         .accessibilityLabel("Continue")
+    }
+}
+
+/// Open-bottom outline marking the selected "Premium" tab (curved top-left corner).
+private struct SelectedTabOutline: Shape {
+    func path(in rect: CGRect) -> Path {
+        let radius: CGFloat = 24
+        var path = Path()
+        path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.minY + radius))
+        path.addQuadCurve(
+            to: CGPoint(x: rect.minX + radius, y: rect.minY),
+            control: CGPoint(x: rect.minX, y: rect.minY)
+        )
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        return path
     }
 }
