@@ -1,120 +1,128 @@
 import SwiftUI
 
+/// P10-S01 Settings root: pinned header, sign-in card, Premium card and grouped rows (design D3).
 struct SettingsView: View {
     var body: some View {
         NavigationStack {
-            List {
-                Section {
-                    signInCard
-                        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.clear)
-                }
-                Section {
-                    premiumCard
-                        .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 8, trailing: 16))
-                        .listRowSeparator(.hidden)
-                        .listRowBackground(Color.clear)
-                }
-                settingsSection
-                Section {
-                    // TODO(P10-S01)
-                    inertRow("Resume In-APP Purchases", identifier: "settings.row.resumePurchases")
-                }
-                Section {
-                    // TODO(P16-S01)
-                    inertRow("Help and Feedback", identifier: "settings.row.helpFeedback")
-                    // TODO(P17-S01)
-                    inertRow("Recommend to Friends", identifier: "settings.row.recommendFriends")
-                } header: {
-                    Text("Help and Feedback")
-                        .textCase(nil)
-                }
-                Section {
-                    // TODO(P18-S01)
-                    inertRow("About", identifier: "settings.row.about")
-                    // TODO(P19-S01)
-                    inertRow(
-                        "Personal Information Collection Checklist",
-                        identifier: "settings.row.personalInfoChecklist"
-                    )
-                } header: {
-                    Text("ABOUT CAMCARD")
-                        .textCase(nil)
+            VStack(spacing: 0) {
+                Text("Settings")
+                    .font(CCFont.pageTitle)
+                    .foregroundStyle(CCColor.textPrimary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 4)
+                    .padding(.bottom, 8)
+                    .accessibilityAddTraits(.isHeader)
+                ScrollView {
+                    VStack(spacing: 0) {
+                        signInCard
+                        premiumCard.padding(.top, 16)
+                        sectionHeader("APP SETTINGS")
+                        SettingsGroup {
+                            routeRow("Account and Sync", route: .settings(.accountSync), id: "accountAndSync")
+                            NavigationLink {
+                                SettingsGeneralView()
+                            } label: {
+                                SettingsRowContent(title: "General")
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityIdentifier("settings.row.general")
+                            routeRow("Language setting", route: .settings(.language), id: "languageSetting")
+                            routeRow("Notifications", route: .settings(.notifications), id: "notifications")
+                            routeRow("Privacy Settings", route: .settings(.privacy), id: "privacySettings")
+                            routeRow("System permissions", route: .settings(.permissions), id: "systemPermissions")
+                        }
+                        SettingsGroup {
+                            // TODO(P10-S01): a purchase action with no captured screen, so it stays inert.
+                            SettingsInertRow(
+                                title: "Resume In-APP Purchases",
+                                identifier: "settings.row.resumePurchases"
+                            )
+                        }
+                        .padding(.top, 12)
+                        sectionHeader("Help and Feedback")
+                        SettingsGroup {
+                            routeRow("Help and Feedback", route: .settings(.helpFeedback), id: "helpFeedback")
+                            routeRow("Recommend to Friends", route: .settings(.inviteFriends), id: "recommendFriends")
+                        }
+                        sectionHeader("ABOUT CAMCARD")
+                        SettingsGroup {
+                            routeRow("About", route: .settings(.about), id: "about")
+                            routeRow(
+                                "Personal Information Collection Checklist",
+                                route: .settings(.piChecklist),
+                                id: "personalInfoChecklist"
+                            )
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.top, 16)
+                    .padding(.bottom, 24)
                 }
             }
-            .listStyle(.insetGrouped)
-            .scrollContentBackground(.hidden)
-            .background(Color(.systemGroupedBackground))
-            .navigationTitle("Settings")
+            .background(CCColor.sheet)
+            .toolbar(.hidden, for: .navigationBar)
             .appRoutes()
         }
     }
 
-    private var settingsSection: some View {
-        Section {
-            // TODO(P10-S01)
-            inertRow("Account and Sync", identifier: "settings.row.accountAndSync")
-            NavigationLink {
-                SettingsGeneralView()
-            } label: {
-                Text("General")
-            }
-            .accessibilityIdentifier("settings.row.general")
-            // TODO(P12-S01)
-            inertRow("Language setting", identifier: "settings.row.languageSetting")
-            // TODO(P13-S01)
-            inertRow("Notifications", identifier: "settings.row.notifications")
-            // TODO(P14-S01)
-            inertRow("Privacy Settings", identifier: "settings.row.privacySettings")
-            // TODO(P15-S01)
-            inertRow("System permissions", identifier: "settings.row.systemPermissions")
-        } header: {
-            Text("APP SETTINGS")
-                .textCase(nil)
+    private func sectionHeader(_ text: String) -> some View {
+        Text(text)
+            .font(CCFont.sectionHeader)
+            .foregroundStyle(CCColor.sectionHeader)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.top, 30)
+            .padding(.bottom, 12)
+    }
+
+    private func routeRow(_ title: String, route: AppRoute, id: String) -> some View {
+        NavigationLink(value: route) {
+            SettingsRowContent(title: title)
         }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("settings.row.\(id)")
+        .accessibilityLabel(title)
     }
 
     private var signInCard: some View {
         VStack(spacing: 18) {
-            Button {
-                // TODO(P20-S01)
-            } label: {
-                HStack {
+            NavigationLink(value: AppRoute.login) {
+                HStack(spacing: 8) {
                     Text("Sign in to access more features")
-                    Spacer()
+                        .font(CCFont.row)
+                        .foregroundStyle(CCColor.textPrimary)
                     Image(systemName: "chevron.right")
-                        .font(.footnote.weight(.semibold))
-                        .foregroundStyle(.tertiary)
+                        .font(.system(size: 13, weight: .regular))
+                        .foregroundStyle(CCColor.textPrimary)
                 }
+                .frame(maxWidth: .infinity)
+                .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .accessibilityIdentifier("settings.signIn")
             .accessibilityLabel("Sign in to access more features")
 
             HStack(spacing: 0) {
-                providerIcon { Image(systemName: "envelope") }
-                providerIcon { Image(systemName: "iphone") }
-                providerIcon { Text("G").font(.headline.weight(.bold)) }
-                providerIcon { Image(systemName: "person.crop.circle") }
-                providerIcon { Text("in").font(.headline.weight(.bold)) }
-                providerIcon { Text("f").font(.headline.weight(.bold)) }
+                providerTile { Image(systemName: "envelope.fill") }
+                providerTile { Image(systemName: "iphone") }
+                providerTile { Text("G").font(.system(size: 22, weight: .bold)) }
+                providerTile { Image(systemName: "apple.logo") }
+                providerTile { Text("in").font(.system(size: 22, weight: .bold)) }
+                providerTile { Text("f").font(.system(size: 24, weight: .bold)) }
             }
         }
-        .padding(16)
-        .background(
-            RoundedRectangle(cornerRadius: 14)
-                .fill(Color(.secondarySystemGroupedBackground))
-        )
+        .padding(.horizontal, 16)
+        .padding(.top, 22)
+        .padding(.bottom, 18)
+        .background(RoundedRectangle(cornerRadius: 12).fill(CCColor.groupedCard))
     }
 
-    private func providerIcon<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+    private func providerTile<Content: View>(@ViewBuilder content: () -> Content) -> some View {
         content()
-            .frame(width: 44, height: 44)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color(.tertiarySystemGroupedBackground))
-            )
+            .font(.system(size: 20))
+            .foregroundStyle(Color(hex: "#4A4A4A"))
+            .frame(width: 41, height: 40)
+            .background(RoundedRectangle(cornerRadius: 10).fill(.white))
             .frame(maxWidth: .infinity)
     }
 
@@ -122,22 +130,23 @@ struct SettingsView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(spacing: 8) {
                 Image(systemName: "crown.fill")
-                    .foregroundStyle(.orange)
+                    .font(.system(size: 18))
+                    .foregroundStyle(Color(hex: "#DDAA5B"))
                 Text("Premium")
-                    .font(.headline)
+                    .font(CCFont.sectionTitle)
+                    .foregroundStyle(CCColor.textPrimary)
                 Spacer()
-                Button {
-                    // TODO(P21-S01)
-                } label: {
+                NavigationLink(value: AppRoute.paywall) {
                     HStack(spacing: 4) {
                         Text("Upgrade")
                         Image(systemName: "plus")
+                            .font(.system(size: 14, weight: .bold))
                     }
-                    .font(.subheadline.weight(.semibold))
+                    .font(CCFont.rowEmphasis)
                     .foregroundStyle(.white)
                     .padding(.horizontal, 14)
-                    .padding(.vertical, 6)
-                    .background(Capsule().fill(Color.orange))
+                    .frame(height: 28)
+                    .background(Capsule().fill(CCColor.premiumGradient))
                 }
                 .buttonStyle(.plain)
                 .accessibilityIdentifier("settings.premium.upgrade")
@@ -145,73 +154,32 @@ struct SettingsView: View {
             }
 
             HStack(spacing: 0) {
-                premiumItem(
-                    "Unlimited Scan",
-                    symbol: "rectangle.on.rectangle",
-                    identifier: "settings.premium.unlimitedScan"
-                )
-                premiumItem(
-                    "Sync CRM",
-                    symbol: "icloud",
-                    identifier: "settings.premium.syncCRM"
-                )
-                premiumItem(
-                    "Export to Excel",
-                    symbol: "square.and.pencil",
-                    identifier: "settings.premium.exportExcel"
-                )
-                premiumItem(
-                    "Back up",
-                    symbol: "person.badge.clock",
-                    identifier: "settings.premium.backUp"
-                )
+                premiumItem("Unlimited Scan", symbol: "viewfinder", identifier: "settings.premium.unlimitedScan")
+                premiumItem("Sync CRM", symbol: "icloud", identifier: "settings.premium.syncCRM")
+                premiumItem("Export to Excel", symbol: "tablecells", identifier: "settings.premium.exportExcel")
+                premiumItem("Back up", symbol: "person.crop.circle.badge.clock", identifier: "settings.premium.backUp")
             }
         }
-        .padding(16)
-        .background(
-            RoundedRectangle(cornerRadius: 14)
-                .fill(
-                    LinearGradient(
-                        colors: [Color.yellow.opacity(0.22), Color.orange.opacity(0.18)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-        )
+        .padding(.horizontal, 16)
+        .padding(.vertical, 18)
+        .background(RoundedRectangle(cornerRadius: 12).fill(CCColor.premiumCard))
     }
 
     private func premiumItem(_ title: String, symbol: String, identifier: String) -> some View {
-        Button {
-            // TODO(P21-S01)
-        } label: {
+        NavigationLink(value: AppRoute.paywall) {
             VStack(spacing: 8) {
                 Image(systemName: symbol)
                     .font(.system(size: 18, weight: .medium))
-                    .foregroundStyle(.orange)
-                    .frame(width: 36, height: 36)
-                    .background(Circle().fill(Color.orange.opacity(0.15)))
+                    .foregroundStyle(SettingsStyle.premiumInk)
+                    .frame(width: 40, height: 40)
+                    .background(Circle().fill(SettingsStyle.premiumCircle))
                 Text(title)
-                    .font(.caption)
-                    .foregroundStyle(.primary)
+                    .font(CCFont.secondary)
+                    .foregroundStyle(CCColor.textPrimary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
             }
             .frame(maxWidth: .infinity)
-        }
-        .buttonStyle(.plain)
-        .accessibilityIdentifier(identifier)
-        .accessibilityLabel(title)
-    }
-
-    private func inertRow(_ title: String, identifier: String) -> some View {
-        Button {
-            // The state named above keeps this row inert.
-        } label: {
-            HStack {
-                Text(title)
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.tertiary)
-            }
             .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
