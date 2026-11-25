@@ -128,3 +128,32 @@ Remaining differences, all accepted or shared-file:
 
 ## Counts
 Pass 23, Fail 17, Not measured: colours and step 3 positions (not counted).
+
+## Re-check after fix round 1
+Build of commit 9dcc68f, reinstalled on CC Agent Tools. Screens: `docs/manual-checks/add-tools-messages-digital-card/recheck-*.png`.
+Pushed pages are measured relative to the bar divider. The divider is at 116 pt in our build and at 97.6 pt in the design (the taller iOS 27 bar is accepted).
+
+| State | Item | Before | After | Expected | Result |
+|---|---|---|---|---|---|
+| P30-S01 | Tools title cap top | +6.3 | 68.7 (+1.0) | 67.7 | Pass |
+| P30-S01 | Segment labels cap top | 119.3 (+3.5) | 119.3 (+3.5) | 115.8 | Fail, unchanged |
+| P30-S01 | Selector underline | 150.3 (+3.9) | 150.3 (+3.9) | 146.4 | Fail, unchanged |
+| P30-S01 | First tile top | 169.7 (+2.7) | 169.7 (+2.7) | 167 | Pass |
+| P31-S01 | Row title | 137.0 | 139.7 (+2.7) | 137 | Pass |
+| P31-S01 | Title, relative to divider | taller bar | taller bar (accepted) | | Pass |
+| P32-S01 | Sunday header, relative to divider | 21.0 | 21.0 | 20.8 | Pass |
+| P32-S01 | Banner top, relative to divider | 49.7 | 49.7 | 49.4 | Pass |
+| P32-S01 | "Welcome" title, relative to divider | 245.3 | 245.3 | 245.9 | Pass |
+| P33-S01 | Progress dashes, relative to divider | 7.7 | 7.7 | 7.8 | Pass |
+| P33-S01 | Heading, relative to divider | 34.0 | 34.0 | 33.8 | Pass |
+| P33-S01 | Subtitle, relative to divider | 69.7 | 69.7 | 70.4 | Pass |
+| P33-S01 | Dots, relative to divider | 575.3 | 575.3 | 575.4 | Pass |
+| P33-S01 | Continue, relative to divider | 609.7 | 609.7 | 610.4 | Pass |
+| P33-S02 | Field 1 top, relative to divider | 129.5 | 129.5 | 129.4 | Pass |
+| P33-S03 | Checkbox, Terms/Privacy, Next, Google, Apple, Phone | inert | no change | inert | Pass |
+| P32-S01 | Card tap | inert | no change | inert | Pass |
+
+Not re-measured: colours, and template-card internals on P33-S01.
+Regressions: none found.
+Remaining mismatches: Tools segment labels +3.5 pt and underline +3.9 pt (outside the ±3 pt tolerance). Fix: reduce the gap above the selector by about 3.5 pt and move the underline up with it.
+Counts this round: Pass 16, Fail 2 (segment labels and underline, both in the Tools header).

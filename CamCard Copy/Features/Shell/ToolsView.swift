@@ -23,7 +23,7 @@ struct ToolsView: View {
                 ScrollView {
                     grid
                         .padding(.horizontal, 16)
-                        .padding(.top, 17)
+                        .padding(.top, 20.7)
                         .padding(.bottom, 16)
                 }
             }
@@ -74,7 +74,7 @@ struct ToolsView: View {
                 segment(.recommend, title: "Recommend")
                 segment(.smartSync, title: "Smart sync")
             }
-            .padding(.top, 14)
+            .padding(.top, 10.3)
             Rectangle()
                 .fill(Self.selectorDivider)
                 .frame(height: 0.5)
