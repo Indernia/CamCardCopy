@@ -2,63 +2,65 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
+        CCTintedHeaderLayout {
+            VStack(spacing: 0) {
                 topBar
                 promoRow
+                    .padding(.top, 23)
+            }
+            .padding(.top, 8)
+            .padding(.bottom, 17)
+        } content: {
+            ScrollView {
                 digitalCardSection
             }
-            .padding(.horizontal, 16)
-            .padding(.top, 8)
-            .padding(.bottom, 24)
         }
-        .background(Color(.systemGroupedBackground))
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("home.content")
     }
 
+    // MARK: Header
+
     private var topBar: some View {
-        HStack(spacing: 12) {
-            Button {
-                // TODO(P31-S01)
-            } label: {
+        HStack(spacing: 0) {
+            NavigationLink(value: AppRoute.messages) {
                 Image(systemName: "bell")
-                    .font(.system(size: 18, weight: .medium))
-                    .foregroundStyle(.primary)
-                    .frame(width: 28, height: 28)
+                    .font(.system(size: 20))
+                    .foregroundStyle(CCColor.iconInk)
+                    .frame(width: 34, height: 34)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .accessibilityIdentifier("home.bell")
             .accessibilityLabel("Notifications")
+            .padding(.trailing, 8)
 
             Button {
-                // TODO(P00-S03)
+                // TODO(P00-S03): opening CardHolder search needs a frozen RootView/AppRoute edit
             } label: {
                 HStack(spacing: 6) {
                     Image(systemName: "magnifyingglass")
-                        .foregroundStyle(.secondary)
                     Text("Search Card Holder")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .font(CCFont.row)
                     Spacer(minLength: 0)
                 }
+                .foregroundStyle(CCColor.textSecondary)
                 .padding(.horizontal, 12)
-                .padding(.vertical, 9)
-                .background(
-                    Capsule()
-                        .fill(Color(.secondarySystemGroupedBackground))
-                )
+                .frame(height: 31)
+                .background(Capsule().fill(CCColor.sheet))
+                .contentShape(Capsule())
             }
             .buttonStyle(.plain)
             .accessibilityIdentifier("home.search")
             .accessibilityLabel("Search Card Holder")
 
-            Button {
-                // TODO(P21-S01)
-            } label: {
+            NavigationLink(value: AppRoute.paywall) {
+                // ASSUMPTION: flat gold; the artwork gradient is not copied.
                 Image(systemName: "crown.fill")
-                    .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(.yellow)
-                    .frame(width: 28, height: 28)
+                    .font(.system(size: 20))
+                    .foregroundStyle(Color(hex: "#F5C518"))
+                    .frame(width: 40, height: 34)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .accessibilityIdentifier("home.crown")
@@ -67,23 +69,26 @@ struct HomeView: View {
             Button {
                 // TODO(P00-S01) ASSUMPTION: the stats destination was not captured
             } label: {
-                Image(systemName: "chart.bar.xaxis")
-                    .font(.system(size: 18, weight: .medium))
-                    .foregroundStyle(.primary)
-                    .frame(width: 28, height: 28)
+                Image(systemName: "chart.bar")
+                    .font(.system(size: 20))
+                    .foregroundStyle(CCColor.iconInk)
+                    .frame(width: 42, height: 34)
+                    .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .accessibilityIdentifier("home.stats")
             .accessibilityLabel("Stats")
         }
+        .padding(.leading, 8)
+        .padding(.trailing, 5)
     }
 
     private var promoRow: some View {
         HStack(spacing: 12) {
             promoCard(
                 icon: "mic.fill",
-                iconBackground: Color.blue.opacity(0.15),
-                iconColor: .blue,
+                iconBackground: Color(hex: "#EFF7FE"),
+                iconColor: CCColor.accent,
                 title: "Speech to Text",
                 subtitle: "AI Summary",
                 identifier: "home.promo.speechToText"
@@ -91,13 +96,14 @@ struct HomeView: View {
             // TODO(P00-S01)
             promoCard(
                 icon: "viewfinder",
-                iconBackground: Color.purple.opacity(0.15),
-                iconColor: .purple,
+                iconBackground: Color(hex: "#F7F2FE"),
+                iconColor: Color(hex: "#873EF6"),
                 title: "High Accuracy",
                 subtitle: "99.99% Accuracy",
                 identifier: "home.promo.highAccuracy"
             )
         }
+        .padding(.horizontal, 16)
     }
 
     private func promoCard(
@@ -111,9 +117,9 @@ struct HomeView: View {
         Button {
             // TODO(P00-S01)
         } label: {
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .leading, spacing: 0) {
                 Image(systemName: icon)
-                    .font(.system(size: 20, weight: .semibold))
+                    .font(.system(size: 20))
                     .foregroundStyle(iconColor)
                     .frame(width: 40, height: 40)
                     .background(
@@ -121,69 +127,86 @@ struct HomeView: View {
                             .fill(iconBackground)
                     )
                 Text(title)
-                    .font(.subheadline.weight(.semibold))
-                    .foregroundStyle(.primary)
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundStyle(CCColor.textPrimary)
+                    .padding(.top, 14)
                 Text(subtitle)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .font(CCFont.secondary)
+                    .foregroundStyle(CCColor.textSecondary)
+                    .padding(.top, 3)
+                Spacer(minLength: 0)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(14)
+            .padding(16)
+            .frame(maxWidth: .infinity, minHeight: 123, maxHeight: 123, alignment: .topLeading)
             .background(
                 RoundedRectangle(cornerRadius: 14)
-                    .fill(Color(.secondarySystemGroupedBackground))
+                    .fill(CCColor.sheet)
             )
+            .contentShape(RoundedRectangle(cornerRadius: 14))
         }
         .buttonStyle(.plain)
         .accessibilityIdentifier(identifier)
         .accessibilityLabel("\(title), \(subtitle)")
     }
 
+    // MARK: Sheet
+
     private var digitalCardSection: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(spacing: 0) {
             Text("My Digital Card")
-                .font(.headline)
-                .foregroundStyle(.primary)
+                .font(CCFont.sectionTitle)
+                .foregroundStyle(CCColor.textPrimary)
+                .frame(maxWidth: .infinity, alignment: .leading)
                 .accessibilityIdentifier("placeholder.home")
-                .padding(.top, 12)
+                .padding(.top, 18)
 
-            VStack(spacing: 16) {
-                Image(systemName: "rectangle.on.rectangle")
-                    .font(.system(size: 64, weight: .regular))
-                    .foregroundStyle(.secondary)
+            // Illustration is an SF Symbol: CamCard artwork is not copied.
+            Image(systemName: "rectangle.on.rectangle")
+                .font(.system(size: 64))
+                .foregroundStyle(CCColor.textSecondary)
+                .padding(.top, 120)
 
-                Text("No cards yet. Create a new one!")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-
-                Button {
-                    // TODO(P33-S01)
-                } label: {
-                    HStack(spacing: 6) {
-                        Image(systemName: "plus")
-                        Text("Create New Card")
-                    }
-                    .font(.body.weight(.medium))
-                    .foregroundStyle(.primary)
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 10)
-                    .background(
-                        Capsule()
-                            .stroke(Color(.separator), lineWidth: 1)
-                            .background(Capsule().fill(Color(.systemBackground)))
-                    )
-                }
-                .buttonStyle(.plain)
-                .accessibilityIdentifier("home.digitalCard.create")
-                .accessibilityLabel("Create New Card")
+            // Two lines broken after "yet." with one accessibility string (design D4).
+            VStack(spacing: 0) {
+                Text("No cards yet.")
+                Text("Create a new one!")
             }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 40)
+            .font(CCFont.row)
+            .foregroundStyle(CCColor.textSecondary)
+            .multilineTextAlignment(.center)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("No cards yet. Create a new one!")
+            .accessibilityAddTraits(.isStaticText)
+            .padding(.top, 40)
+
+            NavigationLink(value: AppRoute.createCard(step: 1)) {
+                HStack(spacing: 8) {
+                    Image(systemName: "plus")
+                    Text("Create New Card")
+                }
+                .font(.system(size: 17))
+                .foregroundStyle(CCColor.textPrimary)
+                .frame(width: 198, height: 47)
+                .background(
+                    Capsule()
+                        .fill(CCColor.sheet)
+                        .overlay(Capsule().stroke(Color(hex: "#E2E2E2"), lineWidth: 1))
+                )
+                .contentShape(Capsule())
+            }
+            .buttonStyle(.plain)
+            .accessibilityIdentifier("home.digitalCard.create")
+            .accessibilityLabel("Create New Card")
+            .padding(.top, 24)
+            .padding(.bottom, 24)
         }
+        .padding(.horizontal, 16)
     }
 }
 
 #Preview {
-    HomeView()
+    NavigationStack {
+        HomeView()
+            .appRoutes()
+    }
 }

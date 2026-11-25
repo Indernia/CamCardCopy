@@ -1,5 +1,4 @@
 import SwiftUI
-import UIKit
 
 struct CardHolderView: View {
     @State private var viewModel: CardHolderViewModel
@@ -10,47 +9,39 @@ struct CardHolderView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                searchPill
-                List {
-                    Section {
-                        if viewModel.cards.isEmpty {
-                            emptyState
-                        } else {
-                            ForEach(viewModel.cards) { card in
-                                NavigationLink(value: card) {
-                                    CardRow(card: card)
-                                }
-                                .accessibilityIdentifier("card.row")
-                            }
-                        }
-                    } header: {
-                        Text("Cards")
-                    }
-                }
-                .listStyle(.plain)
+            CCTintedHeaderLayout {
+                CardHolderSearchBar(viewModel: viewModel)
+            } content: {
+                sheetContent
             }
             .navigationTitle("CardHolder")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(CCColor.headerTint, for: .navigationBar)
+            .toolbarBackgroundVisibility(.visible, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        // TODO(P31-S01)
-                    } label: {
+                    NavigationLink(value: AppRoute.messages) {
                         Image(systemName: "bell")
+                            .font(.system(size: 20))
+                            .foregroundStyle(CCColor.iconInk)
+                            .frame(width: 44, height: 44)
+                            .contentShape(Rectangle())
                     }
+                    .buttonStyle(.plain)
                     .accessibilityIdentifier("cardholder.bell")
                     .accessibilityLabel("Notifications")
                 }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        // TODO(P01-S08)
-                    } label: {
-                        Image(systemName: "plus.circle")
-                    }
-                    .accessibilityIdentifier("cardholder.add")
-                    .accessibilityLabel("Add card")
+                .sharedBackgroundVisibility(.hidden)
+                ToolbarItem(placement: .principal) {
+                    Text("CardHolder")
+                        .font(CCFont.navTitle)
+                        .foregroundStyle(CCColor.textPrimary)
                 }
+                .sharedBackgroundVisibility(.hidden)
+                ToolbarItem(placement: .topBarTrailing) {
+                    addMenu
+                }
+                .sharedBackgroundVisibility(.hidden)
             }
             .navigationDestination(for: CardRecord.self) { card in
                 CardDetailView(card: card)
@@ -62,75 +53,87 @@ struct CardHolderView: View {
         }
     }
 
-    private var searchPill: some View {
-        HStack(spacing: 8) {
-            Image(systemName: "magnifyingglass")
-            Text("Search")
-            Spacer()
+    private var addMenu: some View {
+        Menu {
+            Button("Scan card") {
+                // TODO(P01-S08)
+            }
+            Button("Import from album") {
+                // TODO(P01-S08)
+            }
+        } label: {
+            Image(systemName: "plus.circle")
+                .font(.system(size: 20))
+                .foregroundStyle(CCColor.iconInk)
+                .frame(width: 44, height: 44)
+                .contentShape(Rectangle())
         }
-        .foregroundStyle(.secondary)
-        .padding(.horizontal, 12)
-        .padding(.vertical, 10)
-        .background(Capsule().fill(Color(.secondarySystemBackground)))
-        .accessibilityIdentifier("cardholder.search")
-        .padding(.horizontal)
-        .padding(.bottom, 8)
+        .accessibilityIdentifier("cardholder.add")
+        .accessibilityLabel("Add card")
+    }
+
+    private var sheetContent: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Cards")
+                .font(.system(size: 16))
+                .foregroundStyle(CCColor.textPrimary)
+                .padding(.horizontal, 16)
+                .padding(.top, 15)
+                .padding(.bottom, 8)
+            if viewModel.cards.isEmpty {
+                emptyState
+            } else if viewModel.visibleCards.isEmpty {
+                // TODO(P01-S06): "No results" wording is ASSUMPTION (not captured)
+                Text("No results")
+                    .font(CCFont.row)
+                    .foregroundStyle(CCColor.textSecondary)
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 40)
+                    .accessibilityIdentifier("cardholder.search.noResults")
+                Spacer(minLength: 0)
+            } else {
+                cardList
+            }
+        }
+    }
+
+    private var cardList: some View {
+        // TODO(P01-S02) / TODO(P01-S03): list layout is ASSUMPTION (not captured)
+        List {
+            ForEach(viewModel.visibleCards) { card in
+                NavigationLink(value: card) {
+                    CardHolderRow(card: card)
+                }
+                .accessibilityIdentifier("card.row")
+                .listRowBackground(Color.clear)
+                .listRowSeparatorTint(CCColor.separator)
+                .alignmentGuide(.listRowSeparatorLeading) { _ in 92 }
+                .listRowInsets(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+            }
+        }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
     }
 
     private var emptyState: some View {
-        VStack(spacing: 12) {
+        // Illustration is an SF Symbol: CamCard artwork is not copied.
+        VStack(spacing: 0) {
             Image(systemName: "person.crop.rectangle.stack")
-                .font(.system(size: 44))
-                .foregroundStyle(.secondary)
+                .font(.system(size: 56))
+                .foregroundStyle(CCColor.textSecondary)
+                .padding(.top, 64)
             Text("No cards")
-                .font(.headline)
+                .font(CCFont.rowEmphasis)
+                .foregroundStyle(CCColor.textPrimary)
+                .padding(.top, 43)
             Text("You can use the business card recognition function to upload business cards and efficiently manage your contacts")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .font(CCFont.secondary)
+                .foregroundStyle(CCColor.textSecondary)
                 .multilineTextAlignment(.center)
+                .frame(maxWidth: 272)
+                .padding(.top, 14)
+            Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 40)
-        .listRowSeparator(.hidden)
-    }
-}
-
-private struct CardRow: View {
-    let card: CardRecord
-
-    var body: some View {
-        HStack(spacing: 12) {
-            thumbnail
-            VStack(alignment: .leading, spacing: 4) {
-                Text(card.name ?? "Untitled")
-                    .font(.headline)
-                if let company = card.company, !company.isEmpty {
-                    Text(company)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                }
-            }
-        }
-        .padding(.vertical, 4)
-    }
-
-    @ViewBuilder
-    private var thumbnail: some View {
-        if let data = card.originalImage, let image = UIImage(data: data) {
-            Image(uiImage: image)
-                .resizable()
-                .scaledToFill()
-                .frame(width: 44, height: 44)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
-        } else {
-            Image(systemName: "person.crop.rectangle")
-                .font(.system(size: 22))
-                .foregroundStyle(.secondary)
-                .frame(width: 44, height: 44)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color(.secondarySystemBackground))
-                )
-        }
     }
 }

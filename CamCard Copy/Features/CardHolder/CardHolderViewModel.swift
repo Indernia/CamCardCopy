@@ -7,9 +7,15 @@ final class CardHolderViewModel {
     private let repository: CardRepository
     private(set) var cards: [CardRecord] = []
     private(set) var errorMessage: String?
+    var query = ""
+    var isSearching = false
 
     init(repository: CardRepository) {
         self.repository = repository
+    }
+
+    var visibleCards: [CardRecord] {
+        CardHolderSearch.filter(cards, query: query)
     }
 
     func load() {
@@ -20,5 +26,10 @@ final class CardHolderViewModel {
             cards = []
             errorMessage = String(describing: error)
         }
+    }
+
+    func cancelSearch() {
+        query = ""
+        isSearching = false
     }
 }
