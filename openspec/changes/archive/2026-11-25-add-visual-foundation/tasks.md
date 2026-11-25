@@ -34,7 +34,7 @@ Read `build/test-output.log` and require `** TEST SUCCEEDED **` before checking 
 
 ## 6. Full suite
 
-- [ ] 6.1 Run the full suite on `main` after merge: `xcodebuild test -project "CamCard Copy.xcodeproj" -scheme "CamCard Copy" -destination "platform=iOS Simulator,name=iPhone 17" -collect-test-diagnostics never -parallel-testing-worker-count 3 > build/test-output.log 2>&1` (drop the worker cap once the Mac is back on power, per the project rule). Verification: `build/test-output.log` shows `** TEST SUCCEEDED **` with 0 failures, and T01, T02, T03T20, T05, T07, T12, T18, T21 and the new T22 suites are all green.
+- [x] 6.1 Run the full suite on `main` after merge: `xcodebuild test -project "CamCard Copy.xcodeproj" -scheme "CamCard Copy" -destination "platform=iOS Simulator,name=iPhone 17" -collect-test-diagnostics never -parallel-testing-worker-count 3 > build/test-output.log 2>&1` (drop the worker cap once the Mac is back on power, per the project rule). Verification: `build/test-output.log` shows `** TEST SUCCEEDED **` with 0 failures, and T01, T02, T03T20, T05, T07, T12, T18, T21 and the new T22 suites are all green.
 
 ## Workflow follow-up
 

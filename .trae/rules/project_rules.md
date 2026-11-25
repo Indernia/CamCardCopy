@@ -21,6 +21,3 @@
   xcodebuild otherwise collects after any failure. Add it to every
   xcodebuild test / test-without-building invocation, including targeted
   `-only-testing` runs.)
-- TEMPORARY (2026-11-25, while on battery / Low Power Mode): append
-  `-parallel-testing-worker-count 3` to full-suite runs. Remove this line
-  once the Mac is back on power.
