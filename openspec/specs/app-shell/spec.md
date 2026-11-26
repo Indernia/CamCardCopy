@@ -8,7 +8,7 @@ Provides CamCard's navigation frame and card browsing screens, so later capture,
 
 ### Requirement: CardHolder empty state
 
-With no saved cards, the CardHolder screen SHALL show the title "CardHolder", a search field with placeholder "Search", the section header "Cards", the text "No cards", and the helper text "You can use the business card recognition function to upload business cards and efficiently manage your contacts". The search field SHALL be visible but SHALL NOT accept input in this change.
+With no saved cards, the CardHolder screen SHALL show the title "CardHolder", a search capsule with placeholder "Search" on the header tint, then a white sheet with rounded top corners holding the section header "Cards", the text "No cards", and the helper text "You can use the business card recognition function to upload business cards and efficiently manage your contacts". With no saved cards the search capsule SHALL be visible but SHALL NOT accept input.
 
 #### Scenario: T01 — Empty store shows the CardHolder empty state
 
@@ -25,20 +25,14 @@ With no saved cards, the CardHolder screen SHALL show the title "CardHolder", a 
 - **WHEN** the empty CardHolder screen is shown
 - **THEN** the illustration area contains an SF Symbol or plain placeholder, not CamCard's artwork
 
-### Requirement: CardHolder add control placeholder
+#### Scenario: T24 — CardHolder matches P01-S01 (visual check)
 
-The CardHolder screen SHALL show a ⊕ control at the top right. In this change the control SHALL be a placeholder: tapping it SHALL NOT open a menu, screen or action. P01-S08 (what ⊕ opens) has not been captured, so this control is TODO(P01-S08).
-
-#### Scenario: T01 — Empty CardHolder shows an inert ⊕ (ASSUMPTION: P01-S08 not captured)
-
-- **WHEN** the empty CardHolder screen is shown
-- **THEN** the ⊕ control is visible at the top right
-- **WHEN** the user taps the ⊕ control
-- **THEN** no menu or screen appears and "No cards" remains visible
+- **WHEN** the empty CardHolder is compared with P01-S01
+- **THEN** the tinted header, white search capsule, sheet top, "Cards" header, empty-state text sizes and helper width are within about 2 pt and the design's measured values
 
 ### Requirement: CardHolder list
 
-When at least one card exists, the CardHolder screen SHALL show the "Cards" section with one row per saved card, displaying the card's name and company when present. The empty state SHALL be replaced by the list. Selecting a row SHALL open that card's detail screen.
+When at least one card exists, the CardHolder screen SHALL show the "Cards" section with one row per saved card, newest first, showing a card-ratio thumbnail, the card's name and its company when present. The thumbnail SHALL use the stored corrected image when there is one, otherwise the original image, otherwise a placeholder symbol. The empty state SHALL be replaced by the list. Selecting a row SHALL open that card's detail screen. Row layout is ASSUMPTION (P01-S02 and P01-S03 not captured).
 
 #### Scenario: T12 — Saved cards appear in CardHolder (ASSUMPTION: P01-S02 not captured)
 
@@ -51,9 +45,14 @@ When at least one card exists, the CardHolder screen SHALL show the "Cards" sect
 - **WHEN** the user taps a card row
 - **THEN** the detail screen for that card is shown
 
+#### Scenario: T24 — Thumbnail prefers the corrected image
+
+- **WHEN** a card has both an original and a corrected image
+- **THEN** its row thumbnail is built from the corrected image
+
 ### Requirement: Read-only card detail
 
-The card detail screen SHALL display the card image, or a placeholder when no image is stored, and only the fields that have a value among name, company, jobTitle, mobile, phone, email, website, address, groups and notes. It SHALL be read-only and SHALL NOT offer edit, save, delete, share, export or Sync controls.
+The card detail screen SHALL display the stored corrected card image when there is one, otherwise the original image, or a placeholder when no image is stored. It SHALL show only the fields that have a value among name, company, jobTitle, mobile, phone, email, website, address, groups and notes. It SHALL show a single plain back control and SHALL be read-only, offering no edit, save, delete, share, export or Sync controls.
 
 #### Scenario: T13 — Detail shows stored values and omits empty fields (ASSUMPTION layout)
 
@@ -70,6 +69,11 @@ The card detail screen SHALL display the card image, or a placeholder when no im
 
 - **WHEN** an opened card has groups and notes stored
 - **THEN** its group names and each note's text are visible
+
+#### Scenario: T24 — Detail image prefers the corrected image
+
+- **WHEN** a card with both an original and a corrected image is opened
+- **THEN** the detail image is built from the corrected image
 
 ### Requirement: Scan button opens card capture
 
@@ -125,62 +129,6 @@ The tab bar SHALL match P00-S01: a white background, 10 pt labels, the selected 
 
 - **WHEN** the tab bar is compared with P00-S01
 - **THEN** the background is white, labels use the measured colors and size, the selected icon is filled, and the scan button shows the violet gradient
-
-### Requirement: Home tab content
-
-The Home tab SHALL render the P00-S01 layout: a bell at the top left, a search bar reading "Search Card Holder", a crown and a stats icon at the top right, a two-card promo row reading "Speech to Text" / "AI Summary" and "High Accuracy" / "99.99% Accuracy", a "My Digital Card" section, the text "No cards yet. Create a new one!", and a "Create New Card" button. The tab bar and center scan button SHALL stay unchanged. Every control in this layout SHALL be inert.
-
-#### Scenario: T21 — Home shows the observed P00-S01 chrome
-
-- **WHEN** the app launches
-- **THEN** "Search Card Holder", "Speech to Text", "AI Summary", "High Accuracy", "99.99% Accuracy", "My Digital Card", "No cards yet. Create a new one!" and "Create New Card" are visible
-
-#### Scenario: T21 — Home search is inert
-
-- **WHEN** the user taps the "Search Card Holder" bar
-- **THEN** no keyboard appears and no search field or results screen is shown
-- **AND** the Home content remains visible
-
-#### Scenario: T21 — Home top-bar icons are inert
-
-- **WHEN** the user taps the bell, the crown or the stats icon
-- **THEN** no screen, menu, paywall or message list appears (bell: P31-S01 is out of scope; crown: P21-S01 is out of scope; the stats destination was not captured — ASSUMPTION)
-- **AND** the Home content remains visible
-
-#### Scenario: T21 — Home promo cards are inert
-
-- **WHEN** the user taps the "Speech to Text" or "High Accuracy" promo card
-- **THEN** no screen or toggle appears
-- **AND** the Home content remains visible
-
-#### Scenario: T21 — Create New Card is inert
-
-- **WHEN** the user taps "Create New Card"
-- **THEN** no digital card screen appears (P33-S01 is out of scope)
-- **AND** the Home content remains visible
-
-#### Scenario: T21 — Home placeholders use no CamCard artwork
-
-- **WHEN** the Home tab is shown
-- **THEN** the bell, crown, stats, promo and empty-state images are SF Symbols or plain shapes, not CamCard illustrations, logos or icons
-
-### Requirement: CardHolder top bar
-
-The CardHolder screen SHALL show a bell at the top left in addition to the existing ⊕ at the top right. The bell SHALL be inert. The card list, empty state, ⊕ and T01 behavior SHALL NOT change.
-
-#### Scenario: T21 — CardHolder shows an inert bell
-
-- **WHEN** the CardHolder tab is shown
-- **THEN** the bell is visible at the top left
-- **WHEN** the user taps the bell
-- **THEN** no screen or menu appears (P31-S01 is out of scope)
-- **AND** "No cards" or the existing card list remains visible
-
-#### Scenario: T21 — Existing CardHolder behavior is unchanged
-
-- **WHEN** the empty CardHolder screen is shown
-- **THEN** "CardHolder", "Search", "Cards", "No cards" and the helper text are still visible
-- **AND** the ⊕ still opens nothing
 
 ### Requirement: Tools tab content
 
@@ -315,3 +263,82 @@ The Settings tab SHALL show the P10-S01 root: a pinned "Settings" header, a sign
 
 - **WHEN** the Settings root is compared with P10-S01a and, after scrolling, P10-S01b
 - **THEN** the header stays pinned while the rows scroll, the cards and rows use the measured colors, insets and heights, and "Help and Feedback" is written in mixed case while "APP SETTINGS" and "ABOUT CAMCARD" are capitals
+
+### Requirement: Home tab content and entries
+
+The Home tab SHALL render the P00-S01 layout: a bell at the top left, a search bar reading "Search Card Holder", a crown and a stats icon at the top right, a two-card promo row reading "Speech to Text" / "AI Summary" and "High Accuracy" / "99.99% Accuracy", a "My Digital Card" section, the text "No cards yet. Create a new one!" shown on two lines broken after "yet.", and a "Create New Card" button. The header and promo row SHALL sit on the header tint and the "My Digital Card" section on a white sheet with rounded top corners, using the shared color and type tokens. The bell SHALL push "Messages" (P31-S01), the crown SHALL push "Upgrade Plans" (P21-S01) and "Create New Card" SHALL push "Create your card" step 1 (P33-S01). The search bar, the stats icon and both promo cards SHALL stay inert.
+
+#### Scenario: T21 — Home shows the observed P00-S01 chrome
+
+- **WHEN** the app launches
+- **THEN** "Search Card Holder", "Speech to Text", "AI Summary", "High Accuracy", "99.99% Accuracy", "My Digital Card", "No cards yet. Create a new one!" and "Create New Card" are visible
+
+#### Scenario: T21 — Home search is inert
+
+- **WHEN** the user taps the "Search Card Holder" bar
+- **THEN** no keyboard appears and no search field or results screen is shown
+- **AND** the Home content remains visible
+
+#### Scenario: T21 — Home stats icon and promo cards are inert
+
+- **WHEN** the user taps the stats icon, the "Speech to Text" promo card or the "High Accuracy" promo card
+- **THEN** no screen, menu, sheet or toggle appears (the stats destination was not captured — ASSUMPTION)
+- **AND** the Home content remains visible
+
+#### Scenario: T24 — Home bell opens Messages
+
+- **WHEN** the user taps the Home bell
+- **THEN** the "Messages" page (P31-S01) is pushed with a plain back control
+- **WHEN** the user taps the back control
+- **THEN** the Home content is visible again
+
+#### Scenario: T24 — Crown opens Upgrade Plans
+
+- **WHEN** the user taps the crown
+- **THEN** the "Upgrade Plans" page (P21-S01) is pushed
+- **AND** back returns to Home
+
+#### Scenario: T24 — Create New Card opens step 1
+
+- **WHEN** the user taps "Create New Card"
+- **THEN** the "Create your card" page (P33-S01) is pushed
+- **AND** back returns to Home
+
+#### Scenario: T21 — Home placeholders use no CamCard artwork
+
+- **WHEN** the Home tab is shown
+- **THEN** the bell, crown, stats, promo and empty-state images are SF Symbols or plain shapes, not CamCard illustrations, logos or icons
+
+#### Scenario: T24 — Home matches P00-S01 (visual check)
+
+- **WHEN** Home is compared with P00-S01
+- **THEN** the header tint, white sheet, card and pill positions, type sizes and colors are within about 2 pt and the design's measured values
+
+### Requirement: CardHolder top bar with Messages entry
+
+The CardHolder screen SHALL show a bell at the top left and a ⊕ at the top right as plain navy icons with no glass background, and the title "CardHolder" centered in the navigation title style, on the header tint. Tapping the bell SHALL push "Messages" (P31-S01).
+
+#### Scenario: T24 — CardHolder bell opens Messages
+
+- **WHEN** the user taps the CardHolder bell
+- **THEN** the "Messages" page (P31-S01) is pushed
+- **WHEN** the user taps the back control
+- **THEN** CardHolder is shown again with its empty state or list
+
+#### Scenario: T21 — Existing CardHolder behavior is unchanged
+
+- **WHEN** the empty CardHolder screen is shown
+- **THEN** "CardHolder", "Search", "Cards", "No cards" and the helper text are still visible
+
+### Requirement: CardHolder add menu (P01-S08, ASSUMPTION)
+
+The CardHolder screen SHALL show a ⊕ control at the top right. Tapping it SHALL open a barebones menu with the items "Scan card" and "Import from album". The items SHALL be inert. P01-S08 has not been captured, so the menu is ASSUMPTION and marked TODO(P01-S08).
+
+#### Scenario: T01 — Empty CardHolder shows ⊕ and the empty state stays (ASSUMPTION: P01-S08 not captured)
+
+- **WHEN** the empty CardHolder screen is shown
+- **THEN** the ⊕ control is visible at the top right
+- **WHEN** the user taps the ⊕ control
+- **THEN** a menu with "Scan card" and "Import from album" appears and "No cards" remains visible behind it
+- **WHEN** the user taps a menu item
+- **THEN** no screen opens

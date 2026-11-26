@@ -86,3 +86,22 @@ One entry per archived OpenSpec change: change name, what the AI generated, what
   - In Haiku's re-check the only remaining mismatch (P17 icons) was a mis-measurement. Opus measured 23 pt against the reference's 24.7.
   - Deferred to the milestone audit: text on Invite friends is slightly larger than the reference.
 - **Test results:** targeted in the worktree: T25 6/6, T21 5/5, T22 3/3. Full suite on `main` after the merge: the first run had 0 assertion failures but one UI runner timed out on start-up; the unchanged rerun passed 117, failed 0 (68 unit + 49 UI), `** TEST SUCCEEDED **` in 553 s.
+
+## polish-home-cardholder (archived 2026-11-26)
+
+- **Generated:** proposal.md, a `cardholder-search` spec and an app-shell delta (three requirements removed and re-added, three modified), plus design.md and tasks.md. Sonnet implemented it in a worktree:
+  - Home (P00-S01) and CardHolder (P01-S01) restyled.
+  - Both bells open Messages, the crown opens Upgrade Plans, and Create New Card opens Create your card step 1.
+  - A barebones ⊕ menu with inert items (`TODO(P01-S08)`).
+  - CardHolder search by name and company (P01-S04/05/06, ASSUMPTION); it is inert while CardHolder is empty.
+  - Thumbnail and detail now prefer the processed (cropped) image (milestone 1 bug 4).
+  - Tests: `CardHolderSearchTests` (8), `T15SearchUITests` (5), `T24HomeCardHolderUITests` (3). With approval, the T21 Home loop now expects bell, crown and create to push a page; T21's CardHolder bell test is renamed `testCardHolderBellOpensMessages`; three blocks were removed from T22.
+- **Corrected:**
+  - At approval the user chose: barebones ⊕ menu, search inert when empty, Home search inert until milestone 4.
+  - Haiku's first check measured against the wrong reference offset and assumed the wrong phone height. The corrected rule: clock-calibrated for top-anchored elements; neighbour distances for bottom-anchored and flexible ones; the tab bar frozen.
+  - Fix round 1 (Sonnet), each item re-measured first: Home header and tiles moved up about 10 pt; the oversized bell and stats glyphs shrunk; the empty-state spacing on both screens; CardHolder header and bell size; design.md D1 corrected; Cancel also dismisses the keyboard.
+  - Haiku's re-check: every measured item within ±3 pt and all hand-run flows passing. The cropped-image path is covered only by the unit test, because the seed cards have no image.
+  - At merge, Opus resolved the expected T22 conflict by deleting the then-empty `testT22InertControlsStayInert`, as planned.
+  - The first full run lost two UI runners to start-up timeouts (load average 786 while five simulator clones booted). With the user's approval, the project test command now caps workers with `-parallel-testing-worker-count 3`.
+  - Deferred to the milestone audit: CardHolder header icons positioned with `.offset`.
+- **Test results:** targeted in the worktree, every suite green on the final code in separate runs. Full suite on `main` after the merge with the project's exact command (now with 3 workers): 132 passed, 0 failed (76 unit + 56 UI), `** TEST SUCCEEDED **` in 1216 s.

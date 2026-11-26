@@ -29,12 +29,12 @@ Setup for the implementing agent (Sonnet, in its own worktree):
 
 ## 5. Review
 
-- [ ] 5.1 Implementing agent: commit on its branch and leave its simulator booted with the app installed. Verification: the commit hash, plus T01, T02, T12, T15, T18, T21, T22 and T24 run together on its simulator with `Executed N tests, with 0 failures`.
-- [ ] 5.2 Haiku visual and flow check on that simulator. Compare Home with `P00-S01_home-empty.png` and the empty CardHolder with `P01-S01_cardholder-empty.png` against the D1 table, and walk the state-diagram transitions in D10. Write Pass/Fail with measurements to `docs/manual-checks/polish-home-cardholder.md`. Verification: every item Pass, or an accepted artwork-only difference; any Fail goes back to Sonnet for a fix round.
+- [x] 5.1 Implementing agent: commit on its branch and leave its simulator booted with the app installed. Verification: the commit hash, plus T01, T02, T12, T15, T18, T21, T22 and T24 run together on its simulator with `Executed N tests, with 0 failures`.
+- [x] 5.2 Haiku visual and flow check on that simulator. Compare Home with `P00-S01_home-empty.png` and the empty CardHolder with `P01-S01_cardholder-empty.png` against the D1 table, and walk the state-diagram transitions in D10. Write Pass/Fail with measurements to `docs/manual-checks/polish-home-cardholder.md`. Verification: every item Pass, or an accepted artwork-only difference; any Fail goes back to Sonnet for a fix round.
 
 ## 6. Full suite
 
-- [ ] 6.1 After merge to `main`, run the full suite with the exact project command: `xcodebuild test -project "CamCard Copy.xcodeproj" -scheme "CamCard Copy" -destination "platform=iOS Simulator,name=iPhone 17" -collect-test-diagnostics never > build/test-output.log 2>&1`. Verification: `** TEST SUCCEEDED **` with 0 failures, including the new T15 and T24 suites.
+- [x] 6.1 After merge to `main`, run the full suite with the exact project command: `xcodebuild test -project "CamCard Copy.xcodeproj" -scheme "CamCard Copy" -destination "platform=iOS Simulator,name=iPhone 17" -collect-test-diagnostics never > build/test-output.log 2>&1`. Verification: `** TEST SUCCEEDED **` with 0 failures, including the new T15 and T24 suites.
 
 ## Workflow follow-up
 
