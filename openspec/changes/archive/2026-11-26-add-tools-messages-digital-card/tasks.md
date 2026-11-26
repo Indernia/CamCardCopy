@@ -28,11 +28,11 @@ Read `build/test-output.log` and require `** TEST SUCCEEDED **` before checking 
 
 ## 5. Review
 
-- [ ] 5.1 Haiku visual and flow check on the agent's simulator, per D9. Screenshot P30-S01, P30-S02, P31-S01, P32-S01 and P33-S01/S02/S03 through `-uiTestOpenRoute`. For each, compare measured positions (pt), sizes and sampled colors with the D3–D8 tables and the reference screenshots. Check the flows P30-S01 → P30-S02, P31-S01 → P32-S01, and P33-S01 → S02 → S03 → back. Write Pass/Fail per item, with evidence and screenshot paths, to `docs/manual-checks/add-tools-messages-digital-card.md`. Mismatches go back to Sonnet as a fix round. Verification: every item reads Pass, or is listed as an accepted difference (CamCard artwork, neutral template content, the step 3 offset from D6).
+- [x] 5.1 Haiku visual and flow check on the agent's simulator, per D9. Screenshot P30-S01, P30-S02, P31-S01, P32-S01 and P33-S01/S02/S03 through `-uiTestOpenRoute`. For each, compare measured positions (pt), sizes and sampled colors with the D3–D8 tables and the reference screenshots. Check the flows P30-S01 → P30-S02, P31-S01 → P32-S01, and P33-S01 → S02 → S03 → back. Write Pass/Fail per item, with evidence and screenshot paths, to `docs/manual-checks/add-tools-messages-digital-card.md`. Mismatches go back to Sonnet as a fix round. Verification: every item reads Pass, or is listed as an accepted difference (CamCard artwork, neutral template content, the step 3 offset from D6).
 
 ## 6. Full suite
 
-- [ ] 6.1 After Opus merges the branch into `main`, run the full suite with the project's exact command: `xcodebuild test -project "CamCard Copy.xcodeproj" -scheme "CamCard Copy" -destination "platform=iOS Simulator,name=iPhone 17" -collect-test-diagnostics never > build/test-output.log 2>&1`. Verification: `build/test-output.log` shows `** TEST SUCCEEDED **` with 0 failures, including T21, T22, the new T23 suite and `UITestRouteHookTests`.
+- [x] 6.1 After Opus merges the branch into `main`, run the full suite with the project's exact command: `xcodebuild test -project "CamCard Copy.xcodeproj" -scheme "CamCard Copy" -destination "platform=iOS Simulator,name=iPhone 17" -collect-test-diagnostics never > build/test-output.log 2>&1`. Verification: `build/test-output.log` shows `** TEST SUCCEEDED **` with 0 failures, including T21, T22, the new T23 suite and `UITestRouteHookTests`.
 
 ## Workflow follow-up
 

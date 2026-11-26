@@ -43,3 +43,21 @@ One entry per archived OpenSpec change: change name, what the AI generated, what
 - **Generated:** proposal.md, a visual-style delta ("Plain toolbar icons" and "Pushed-page navigation bar" modified, tab bar hidden on pushed pages), design.md, tasks.md. Opus implemented it directly on `main` as the prerequisite for the three parallel milestone 2 changes: `CCColor.navInk` (#232323) and `navDivider` (#F1F1F1), a `tint` parameter on `CCIconButton`, `TabBarVisibility` (an observable counter of pushed pages, injected by `RootView`, which hides `MainTabBar` while it is above 0), and `ccPushedNavigationBar` reporting appear/disappear and drawing the divider. Tests: `ThemeTests` extended, new `TabBarVisibilityTests` (4).
 - **Corrected:** while cross-checking the three screen drafts, Opus found that every captured pushed page has no tab bar and a #232323 chevron, and that two drafts proposed duplicate fixes to the shared files, so this prerequisite replaced them. At approval the user settled the shared form-field rule: fields accept typing and save nothing (the Login email box in add-settings-pages was changed to match). The first full run stopped with a UI test runner start-up timeout ("Timed out waiting for AX loaded notification") while agent simulators were being created; no assertion failed, and the unchanged rerun was green.
 - **Test results:** targeted ThemeTests + TabBarVisibilityTests 7/7. Simulator check passed (chevron #232323, divider #F1F1F1, no tab bar, tab bar back after `nav.back`; `docs/manual-checks/fix-pushed-page-chrome.md`). Full suite with the project's exact command: 106 passed, 0 failed (66 unit + 40 UI), `** TEST SUCCEEDED **` in 785 s.
+
+## add-tools-messages-digital-card (archived 2026-11-26)
+
+- **Generated:** proposal.md, a `messages` spec, a `digital-card-creation` spec and an app-shell delta ("Tools tab content" modified), plus design.md and tasks.md. Sonnet implemented it in a worktree:
+  - Tools restyled: 176×188 tiles, radius 12, red "New" badge on AI Transcription, a selector with the `.isSelected` trait.
+  - Messages (P31-S01) → Biz Tips (P32-S01) as inert copies.
+  - Create your card steps 1–3 (P33-S01/S02/S03), with neutral template bars and fields that accept typing and save nothing.
+  - A DEBUG-only `-uiTestOpenRoute` hook that pushes a route onto the Tools stack.
+  - Tests: `UITestRouteHookTests` (2) and `T23ToolsMessagesDigitalCardUITests` (3).
+- **Corrected:**
+  - At approval the user chose: neutral template bars, fixed "Sunday", and fields that accept typing but save nothing (shared with Settings' Login box).
+  - The first Haiku check was blocked: the simulator tool had no access to the agent's simulator until the user granted it, and `simctl launch` hung under load.
+  - Its measurements used the wrong reference offset. Opus recalibrated on the status-bar clock: `y_pt = y_px/1.537 + 3.1` for top-anchored elements, neighbour distances for bottom-anchored ones, and the bar divider on pushed pages.
+  - The user decided to keep the iOS 27 navigation bar on pushed pages, which is about 15 pt taller than CamCard's.
+  - Fix round 1 (Sonnet) brought every offset within about 1 pt and swapped hand-typed colours for tokens.
+  - Fix round 2 (Opus) moved the selector up 3.7 pt.
+  - Deferred to the milestone audit: pushed-page title ink #151314 against the reference's #1E1E1E.
+- **Test results:** targeted runs in the worktree green (UITestRouteHookTests 2/2, T23 3/3, T21 5/5, T22 3/3). Full suite on `main` after the merge with the project's exact command: 111 passed, 0 failed (68 unit + 43 UI), `** TEST SUCCEEDED **` in 445 s.
