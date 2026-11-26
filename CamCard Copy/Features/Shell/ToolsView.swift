@@ -5,83 +5,111 @@ struct ToolsView: View {
         case recommend, smartSync
     }
 
+    private static let helpInk = CCColor.iconInk
+    private static let selectedInk = CCColor.tabSelected
+    private static let unselectedInk = CCColor.textSecondary
+    private static let selectorDivider = CCColor.groupedBackground
+    private static let badgeRed = Color(hex: "#EB3324")
+
     @State private var pane: Pane = .recommend
+    @State private var path: [AppRoute] = []
+    @State private var didApplyRouteHook = false
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             VStack(spacing: 0) {
                 header
                 selector
                 ScrollView {
                     grid
-                        .padding(16)
+                        .padding(.horizontal, 16)
+                        .padding(.top, 20.7)
+                        .padding(.bottom, 16)
                 }
             }
-            .background(Color(.systemBackground))
+            .background(CCColor.sheet)
             .toolbar(.hidden, for: .navigationBar)
             .appRoutes()
+            .onAppear {
+                guard !didApplyRouteHook else { return }
+                didApplyRouteHook = true
+                if let route = UITestRouteHook.route(from: ProcessInfo.processInfo.arguments) {
+                    path.append(route)
+                }
+            }
         }
     }
 
     private var header: some View {
-        HStack {
+        HStack(spacing: 0) {
             Text("Tools")
-                .font(.largeTitle.bold())
+                .font(CCFont.pageTitle)
+                .foregroundStyle(CCColor.textPrimary)
                 .accessibilityIdentifier("tools.title")
             Spacer()
             Button {
                 // TODO(P16-S01)
             } label: {
-                HStack(spacing: 4) {
+                HStack(spacing: 7) {
                     Text("Help")
+                        .font(.system(size: 16, weight: .regular))
+                        .foregroundStyle(Self.helpInk)
                     Image(systemName: "questionmark.circle.fill")
+                        .font(.system(size: 20))
+                        .foregroundStyle(Self.helpInk)
                 }
-                .font(.subheadline.weight(.medium))
             }
             .accessibilityIdentifier("tools.help")
             .accessibilityLabel("Help")
         }
-        .padding(.horizontal, 16)
-        .padding(.top, 8)
+        .padding(.leading, 18)
+        .padding(.trailing, 19)
+        .padding(.bottom, 7)
+        .frame(height: 40)
     }
 
     private var selector: some View {
-        HStack(spacing: 0) {
-            segment(.recommend, title: "Recommend")
-            segment(.smartSync, title: "Smart sync")
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                segment(.recommend, title: "Recommend")
+                segment(.smartSync, title: "Smart sync")
+            }
+            .padding(.top, 10.3)
+            Rectangle()
+                .fill(Self.selectorDivider)
+                .frame(height: 0.5)
         }
-        .padding(.top, 8)
-        .background(Color(.systemBackground))
     }
 
     private func segment(_ pane: Pane, title: String) -> some View {
-        Button {
+        let isSelected = self.pane == pane
+        return Button {
             // TODO(P30-S01) Recommend pane; TODO(P30-S02) Smart sync pane
             self.pane = pane
         } label: {
-            Text(title)
-                .font(.headline)
-                .foregroundStyle(self.pane == pane ? Color.primary : Color.secondary)
-                .padding(.horizontal, 12)
-                .padding(.bottom, 10)
-                .overlay(alignment: .bottom) {
-                    Rectangle()
-                        .fill(self.pane == pane ? Color.accentColor : Color.clear)
-                        .frame(height: 3)
-                }
-                .frame(maxWidth: .infinity)
+            VStack(spacing: 15) {
+                Text(title)
+                    .font(.system(size: 16, weight: .regular))
+                    .foregroundStyle(isSelected ? Self.selectedInk : Self.unselectedInk)
+                Capsule()
+                    .fill(isSelected ? CCColor.accent : Color.clear)
+                    .frame(width: 23, height: 2)
+            }
+            .frame(maxWidth: .infinity)
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .accessibilityIdentifier(
             pane == .recommend ? "tools.segment.recommend" : "tools.segment.smartSync"
         )
         .accessibilityLabel(title)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 
     private var grid: some View {
         LazyVGrid(
             columns: [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)],
-            spacing: 12
+            spacing: 12.7
         ) {
             ForEach(tiles) { tile in
                 tileButton(tile)
@@ -97,7 +125,8 @@ struct ToolsView: View {
                     identifier: "tools.recommend.aiTranscription",
                     title: "AI Transcription",
                     symbol: "waveform",
-                    tint: .purple
+                    tint: .purple,
+                    showsNewBadge: true
                 ),
                 ToolsTile(
                     identifier: "tools.recommend.emailSignatures",
@@ -173,34 +202,57 @@ struct ToolsView: View {
     }
 
     private func tileButton(_ tile: ToolsTile) -> some View {
-        Button {
-            // TODO(P30-S01) Recommend tiles and TODO(P30-S02) Smart sync tiles
-        } label: {
-            ZStack(alignment: .bottomLeading) {
-                LinearGradient(
-                    colors: [tile.tint.opacity(0.7), tile.tint.opacity(0.2)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
+        ZStack(alignment: .topTrailing) {
+            Button {
+                // TODO(P30-S01) Recommend tiles and TODO(P30-S02) Smart sync tiles
+            } label: {
+                ZStack(alignment: .bottomLeading) {
+                    LinearGradient(
+                        colors: [tile.tint.opacity(0.7), tile.tint.opacity(0.2)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
 
-                Image(systemName: tile.symbol)
-                    .font(.system(size: 44, weight: .semibold))
-                    .foregroundStyle(.white)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    Image(systemName: tile.symbol)
+                        .font(.system(size: 44, weight: .semibold))
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
 
-                Text(tile.title)
-                    .font(.headline)
-                    .foregroundStyle(.white)
-                    .multilineTextAlignment(.leading)
-                    .shadow(radius: 2)
-                    .padding(12)
+                    LinearGradient(
+                        colors: [Color.black.opacity(0), Color.black.opacity(0.25)],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .frame(height: 188 * 0.4)
+
+                    Text(tile.title)
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundStyle(.white)
+                        .multilineTextAlignment(.leading)
+                        .shadow(color: .black.opacity(0.25), radius: 2)
+                        .padding(.leading, 13.6)
+                        .padding(.trailing, 8)
+                        .padding(.bottom, 12)
+                }
+                .frame(height: 188)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
             }
-            .frame(height: 150)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .buttonStyle(.plain)
+            .accessibilityIdentifier(tile.identifier)
+            .accessibilityLabel(tile.title)
+
+            if tile.showsNewBadge {
+                Text("New")
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(.white)
+                    .frame(width: 37, height: 19.5)
+                    .background(Capsule().fill(Self.badgeRed))
+                    .padding(.top, 13.7)
+                    .padding(.trailing, 9.7)
+                    .allowsHitTesting(false)
+                    .accessibilityIdentifier("\(tile.identifier).badge")
+            }
         }
-        .buttonStyle(.plain)
-        .accessibilityIdentifier(tile.identifier)
-        .accessibilityLabel(tile.title)
     }
 }
 
@@ -209,6 +261,7 @@ private struct ToolsTile: Identifiable {
     let title: String
     let symbol: String
     let tint: Color
+    var showsNewBadge: Bool = false
 
     var id: String { identifier }
 }
