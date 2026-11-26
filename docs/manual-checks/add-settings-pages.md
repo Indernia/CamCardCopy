@@ -187,3 +187,33 @@ Known and accepted, not listed per page: the navigation bar divider (about 15 pt
 - Not run: 6 rows (P14 toggle tap, P15 card height, P17 email tap, P20 Next and sign-in, P14 flow toggle, P15/P16/P17/P18 button taps in the flow check)
 
 Updated after fix round 1.
+
+## Re-check after fix round 1
+
+Rebuilt from commit 42e58dd and reinstalled on the same simulator. Screenshots: `docs/manual-checks/add-settings-pages/R2-*.png`.
+
+| item | expected | measured | Pass/Fail |
+|---|---|---|---|
+| P21 selected tab | Premium selected | Premium tab outlined and warm, PRO plain | Pass |
+| P21 single centred title | once, centred | once, centred | Pass |
+| P21 "Business Card Scanner" on one line | one line | one line | Pass |
+| P10 sign-in card top and height | 126 pt and 124 pt (ref) | 128 pt and 124 pt | Pass |
+| P10 Premium card top and height | 266 pt and 157 pt (ref) | 267 pt and 157 pt | Pass |
+| P10 "APP SETTINGS" header | about 465 pt (ref) | about 463 pt | Pass |
+| P10 scrolled state | header pinned, tab bar visible | header pinned, tab bar visible | Pass |
+| P19 table top, rel to divider | 41 to 45 pt (ref) | 46.6 pt | Pass |
+| P19 side margins | about 21 pt (ref) | 21 pt left and right | Pass |
+| P20 heading, rel to divider | 36 pt (ref) | 37 pt | Pass |
+| P20 keyboard open: nothing under bar, nothing truncated | none under bar, no truncation | none under bar, subtitle and "Or continue with" full | Pass |
+| P20 typed email cleared on return | empty | empty | Pass |
+| P17 sheet top to icon top | 26 pt (ref) | 17 pt | Fail (-9) |
+| P14 row height | 59.6 pt (ref) | 59 pt | Pass |
+| P16 single-line question row pitch | 44.8 pt (ref) | 45 pt | Pass |
+| P15 card height | 99.6 pt (ref) | 99 pt | Pass |
+
+Regression check: pushed pages P14 to P21 and the root show their spec texts, no tab bar on pushed pages, and Settings root with tab bar. No new regressions seen.
+
+Remaining mismatch: P17 share icons sit 9 pt closer to the sheet top than in the reference (17 pt vs 26 pt, measured from the sheet top at about 723 pt to the icon top at about 740 pt). Fix: `SettingsInviteFriendsView.swift`, add about 9 pt above the share icons.
+
+Not re-run in this round: P20 Next and sign-in taps, P17 "email" tap, P14 toggle tap.
+Nothing committed.
