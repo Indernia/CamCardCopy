@@ -132,7 +132,7 @@ final class T21ShellPlaceholderUITests: XCTestCase {
     }
 
     @MainActor
-    func testSettingsPlaceholdersExistAndAreInert() throws {
+    func testSettingsRowsExistAndOpenTheirPages() throws {
         continueAfterFailure = false
         let app = launch()
 
@@ -163,10 +163,12 @@ final class T21ShellPlaceholderUITests: XCTestCase {
             XCTAssertTrue(row.waitForExistence(timeout: 5), "Missing Settings row \(row.identifier)")
         }
 
-        for element in [signIn, upgrade] + premiumItems {
+        for (element, page) in [(signIn, "settings.page.login"), (upgrade, "settings.page.paywall")]
+            + premiumItems.map({ ($0, "settings.page.paywall") }) {
             element.tap()
-            XCTAssertEqual(app.sheets.count, 0, "No sheet should open")
-            XCTAssertTrue(signIn.exists, "Settings content should stay visible")
+            XCTAssertTrue(app.descendants(matching: .any)[page].waitForExistence(timeout: 5), "\(page) should open")
+            app.buttons["nav.back"].tap()
+            XCTAssertTrue(signIn.waitForExistence(timeout: 5), "Settings content should return")
         }
 
         app.swipeUp()
@@ -187,10 +189,27 @@ final class T21ShellPlaceholderUITests: XCTestCase {
         }
         XCTAssertTrue(app.staticTexts["ABOUT CAMCARD"].exists, "Missing ABOUT CAMCARD header")
 
+        let lowerPages = [
+            "notifications": "settings.page.notifications",
+            "privacySettings": "settings.page.privacy",
+            "systemPermissions": "settings.page.permissions",
+            "helpFeedback": "settings.page.helpFeedback",
+            "recommendFriends": "settings.page.inviteFriends",
+            "about": "settings.page.about",
+            "personalInfoChecklist": "settings.page.piChecklist"
+        ]
         for row in lowerRows {
+            if row.identifier == "settings.row.resumePurchases" {
+                row.tap()
+                XCTAssertEqual(app.sheets.count, 0, "No sheet should open")
+                XCTAssertTrue(app.buttons["tab.settings"].exists, "Settings should stay the current screen")
+                continue
+            }
+            let page = lowerPages[String(row.identifier.dropFirst("settings.row.".count))]!
             row.tap()
-            XCTAssertEqual(app.sheets.count, 0, "No sheet should open")
-            XCTAssertTrue(app.buttons["tab.settings"].exists, "Settings should stay the current screen")
+            XCTAssertTrue(app.descendants(matching: .any)[page].waitForExistence(timeout: 5), "\(page) should open")
+            app.buttons["nav.back"].tap()
+            XCTAssertTrue(app.buttons["tab.settings"].waitForExistence(timeout: 5), "Settings should return")
         }
     }
 

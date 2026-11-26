@@ -58,12 +58,5 @@ final class T22VisualFoundationUITests: XCTestCase {
         bell.tap()
         XCTAssertTrue(app.staticTexts["No cards"].exists, "CardHolder bell opens nothing")
         XCTAssertFalse(app.buttons["nav.back"].exists)
-
-        app.buttons["tab.settings"].tap()
-        let language = app.buttons["settings.row.languageSetting"]
-        XCTAssertTrue(language.waitForExistence(timeout: 5))
-        language.tap()
-        XCTAssertTrue(app.buttons["settings.signIn"].exists, "Language setting opens nothing")
-        XCTAssertFalse(app.buttons["nav.back"].exists)
     }
 }

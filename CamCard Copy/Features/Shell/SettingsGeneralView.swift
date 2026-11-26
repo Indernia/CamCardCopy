@@ -1,119 +1,57 @@
 import SwiftUI
 
+/// P11-S01 General. Read-only: rows open nothing and toggles show off and never change (design D4).
 struct SettingsGeneralView: View {
     var body: some View {
-        List {
-            Section {
+        SettingsPageScaffold(title: "General", identifier: "settings.page.general") {
+            SettingsListSection {
                 // TODO(P11-S01)
-                valueRow(
-                    "New cards autosaved to Contacts",
+                SettingsInertRow(
+                    title: "New cards autosaved to Contacts",
                     value: "Off",
                     identifier: "settings.general.newCardsAutosaved"
                 )
             }
-            Section {
+            SettingsListSection {
                 // TODO(P11-S01)
-                inertRow("Font Size", identifier: "settings.general.fontSize")
+                SettingsInertRow(title: "Font Size", identifier: "settings.general.fontSize")
                 // TODO(P11-S01)
-                inertRow("Recognition Languages", identifier: "settings.general.recognitionLanguages")
+                SettingsInertRow(title: "Recognition Languages", identifier: "settings.general.recognitionLanguages")
                 // ASSUMPTION: P11-S01 shows this off; reference/observations.md notes P07-S01 shows it on.
-                toggleRow(
-                    "Show group settings when saving cards",
+                SettingsToggleRow(
+                    title: "Show group settings when saving cards",
+                    isOn: false,
                     labelIdentifier: "settings.general.showGroupSettings",
                     toggleIdentifier: "settings.general.showGroupSettings.toggle"
                 )
-                toggleRow(
-                    "Save Card Image",
+                SettingsToggleRow(
+                    title: "Save Card Image",
+                    isOn: false,
                     labelIdentifier: "settings.general.saveCardImage",
                     toggleIdentifier: "settings.general.saveCardImage.toggle"
                 )
             }
-            Section {
+            SettingsListSection {
                 // TODO(P11-S01)
-                valueRow(
-                    "Sort Order",
-                    value: "First, Last",
-                    identifier: "settings.general.sortOrder"
-                )
+                SettingsInertRow(title: "Sort Order", value: "First, Last", identifier: "settings.general.sortOrder")
                 // TODO(P11-S01)
-                valueRow(
-                    "Display Order",
-                    value: "First, Last",
-                    identifier: "settings.general.displayOrder"
-                )
+                SettingsInertRow(title: "Display Order", value: "First, Last", identifier: "settings.general.displayOrder")
             }
-            Section {
+            SettingsListSection {
                 // TODO(P11-S01)
-                valueRow(
-                    "Clear your space",
+                SettingsInertRow(
+                    title: "Clear your space",
                     value: "Not logged in",
                     identifier: "settings.general.clearYourSpace"
                 )
             }
-            Section {
+            SettingsListSection {
                 // TODO(P11-S01)
-                inertRow("App Lock", identifier: "settings.general.appLock")
-            } footer: {
-                Text("Once enabled, a password will be required to open the app")
+                SettingsInertRow(title: "App Lock", identifier: "settings.general.appLock")
             }
+            SettingsFooter(text: "Once enabled, a password will be required to open the app")
         }
-        .listStyle(.insetGrouped)
         .navigationTitle("General")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-
-    private func inertRow(_ title: String, identifier: String) -> some View {
-        Button {
-            // TODO(P11-S01)
-        } label: {
-            HStack {
-                Text(title)
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.tertiary)
-            }
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        .accessibilityIdentifier(identifier)
-        .accessibilityLabel(title)
-    }
-
-    private func valueRow(_ title: String, value: String, identifier: String) -> some View {
-        Button {
-            // TODO(P11-S01)
-        } label: {
-            HStack {
-                Text(title)
-                Spacer()
-                Text(value)
-                    .foregroundStyle(.secondary)
-                Image(systemName: "chevron.right")
-                    .font(.footnote.weight(.semibold))
-                    .foregroundStyle(.tertiary)
-            }
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        .accessibilityIdentifier(identifier)
-        .accessibilityLabel("\(title), \(value)")
-    }
-
-    private func toggleRow(
-        _ title: String,
-        labelIdentifier: String,
-        toggleIdentifier: String
-    ) -> some View {
-        HStack {
-            Text(title)
-                .accessibilityIdentifier(labelIdentifier)
-            Spacer()
-            Toggle("", isOn: .constant(false))
-                .labelsHidden()
-                .disabled(true)
-                .accessibilityIdentifier(toggleIdentifier)
-        }
     }
 }
 

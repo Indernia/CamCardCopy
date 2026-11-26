@@ -149,6 +149,7 @@ The same applies to the sign-in tiles and P20's "Sign in with Apple". `apple.log
 - [Merge conflict in `T22VisualFoundationUITests.testT22InertControlsStayInert`, which `polish-home-cardholder` and `add-tools-messages-digital-card` also edit] → This change deletes only the Language block, the last lines of the function. Opus merges the three branches one at a time and resolves conflicts there.
 - [A pinned header plus `ScrollView` loses the system's scroll-edge effects] → Matches P10-S01b, which shows a static header.
 - [Long verbatim texts (FAQ, P17 fine print, P19 table) can drift from the screenshot] → T25 asserts the key texts, and the Haiku check compares the rest.
+- [The iOS 27 system navigation bar on pushed pages puts the divider about 15 pt lower (116 pt vs 100.7 pt) and the chevron and title about 4 pt lower than the reference] → Accepted by the user; the visual check compares pushed-page content relative to the divider.
 - [Constant-binding toggles still animate a little when tapped] → Accepted. The value never changes.
 
 ## Migration Plan
