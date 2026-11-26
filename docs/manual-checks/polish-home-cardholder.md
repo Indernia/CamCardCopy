@@ -107,3 +107,58 @@ Screenshots: `P00-S01-home-empty-fix1.png`, `P01-S01-cardholder-empty-fix1.png`.
 | Seed row thumbnail | n/a | placeholder | seed cards have no image; T24 coverage is the unit test `testDisplayImagePrefersProcessedThenOriginalThenNil` | Not visual |
 
 Flows run on the simulator: Home bell, crown push a page, back returns Home with the tab bar; Home search, stats and both promo cards do nothing; CardHolder tab opens. Empty CardHolder search, the add menu items and Create New Card are asserted by T01, T21 and T24.
+
+## Re-check after fix round 1
+
+Build: commit 1491aee ("Fix round 1 for polish-home-cardholder") on worktree agent-a228e1c7dd094ddca (branch of this change). The coordinator's path agent-acf4a5aa32c919004 is a different branch (add-settings-pages, HEAD 42e58dd), so it was not used. Rebuilt, installed and launched with the same flags. Screenshots: `R1-*.png` in this folder.
+
+### Before/after: Home (P00-S01), pt, reference calibration
+
+| Item | Reference | Before | After | Pass/Fail |
+|---|---|---|---|---|
+| Bell centre y | 77.0 (70.1 to 83.8) | 87 | 79.2 (71.3 to 87.0) | Pass (+2.2) |
+| Promo tile top | 117.0 | 127 | 117.0 | Pass |
+| Promo tile bottom | 240.6 | ~250 | 240.0 | Pass |
+| Sheet top | 256.8 | ~267 to 269 | 257.0 | Pass |
+| "My Digital Card" | 279.6 to 291.3 | 289.3 to 301.7 | 279.3 to 291.7 | Pass |
+| Empty text line 1 | 556.1 to 569.8 | 544.7 to 558.0 | 555.7 to 569.0 | Pass |
+| Empty text line 2 | 575.0 to 586.1 | 563.0 to 573.7 | 574.0 to 584.7 | Pass |
+| Create New Card button | 614.7 to 661.5 | 600.7 to 648.7 | 613.7 to 661.7 | Pass |
+| Stats icon y range | 69.5 to 88.3 | 69.3 to 88.3 | 69.3 to 88.3 | Pass (y); x from right edge not re-measured |
+| Status clock | 26.5 to 37.6 | 25.7 to 38.7 | unchanged | Pass |
+
+### Before/after: CardHolder empty (P01-S01)
+
+| Item | Reference | Before | After | Pass/Fail |
+|---|---|---|---|---|
+| Title "CardHolder" | 71.4 to 85.7 | 77 to 90.3 | 72.0 to 85.3 | Pass |
+| Bell | 70.1 to 83.8 | 73.3 to 95.3 | 71.0 to 87.3 (centre +2.2) | Pass |
+| Search pill | 117 to 156.6 | 124 to 162 | 117 to 155 | Pass |
+| Sheet top | 172.9 | 179 | 172 | Pass |
+| "Cards" label | 192.4 to 204.1 | centre ~203 | 192.7 to 204.3 | Pass |
+| "No cards" | 374.6 to 386.3 | centre ~413 | 373.7 to 385.7 | Pass |
+| Helper line 1 | 403.9 to 416.2 | ~444 | 403.3 to 415.0 | Pass |
+| Helper line 2 | 420.8 to 432.5 | ~444 to 478 | 419.0 to 430.7 | Pass |
+| Helper line 3 | 437.1 to 449.4 | ~444 to 478 | 434.7 to 446.3 | Pass (-2.4) |
+| ⊕ right edge (from right) | 26.5 from right | ~27 | 27.3 from right | Pass |
+
+Regressions: none found. Home and CardHolder header, sheet and text positions all now sit within tolerance. Colours were not re-sampled in this round; the screenshots show the same header tint and white sheet.
+
+### Flows (fixed build)
+
+| Flow | Result |
+|---|---|
+| Home → Create New Card pushes "Create your card" (P33-S01), back returns to Home | Pass |
+| `-uiTestEmptyStore`: tap empty CardHolder search does nothing (no keyboard, no field) | Pass |
+| `-uiTestEmptyStore`: ⊕ opens menu with "Scan card" and "Import from album"; tapping "Scan card" closes the menu and opens nothing | Pass (only "Scan card" tapped; "Import from album" not tapped) |
+| `-uiTestSeedCards`: "ortiz" shows only Blair Ortiz | Pass |
+| `-uiTestSeedCards`: "FABRI" shows only Casey Lund | Pass |
+| `-uiTestSeedCards`: "zzqx" shows "No results" | Pass |
+| `-uiTestSeedCards`: Cancel restores three rows | Pass |
+| `-uiTestSeedCards`: tap Avery Chen opens detail; back returns to the list | Pass |
+
+### Remaining mismatches
+
+None above tolerance on the measured items.
+
+Not verified: seeded row thumbnails still show the placeholder symbol, so the cropped-image path is unverified (seed has no image). "Import from album" was not tapped. Header x positions were not re-measured from the right edge, except the ⊕.
