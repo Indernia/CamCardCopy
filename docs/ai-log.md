@@ -61,3 +61,28 @@ One entry per archived OpenSpec change: change name, what the AI generated, what
   - Fix round 2 (Opus) moved the selector up 3.7 pt.
   - Deferred to the milestone audit: pushed-page title ink #151314 against the reference's #1E1E1E.
 - **Test results:** targeted runs in the worktree green (UITestRouteHookTests 2/2, T23 3/3, T21 5/5, T22 3/3). Full suite on `main` after the merge with the project's exact command: 111 passed, 0 failed (68 unit + 43 UI), `** TEST SUCCEEDED **` in 445 s.
+
+## add-settings-pages (archived 2026-11-26)
+
+- **Generated:** proposal.md, design.md and tasks.md; a `settings-pages` spec with 12 requirements; and an app-shell delta that removes "Settings root content", adds "Settings root and row navigation" and modifies General. Sonnet implemented it in a worktree:
+  - Settings root restyled (P10-S01a/b) and General (P11).
+  - Inert visual copies of Language, Notifications, Privacy, System permissions, Help and Feedback, Invite friends, About, the personal-information checklist, Login via email and Upgrade Plans (P12–P21).
+  - Every row wired; Account and Sync stays a "Not built yet" page and Resume In-APP Purchases stays inert.
+  - Toggles show their captured state and don't move.
+  - The Login email box accepts typing and saves nothing.
+  - About shows our own version, with no IntSig copyright line.
+  - Tests: new `T25SettingsPagesUITests` (6). With approval, the T21 Settings test was renamed `testSettingsRowsExistAndOpenTheirPages`, and the Language block was removed from T22.
+- **Corrected:**
+  - At approval the user chose: fields accept typing and save nothing, toggles show the observed state, About shows our own version with no IntSig line.
+  - The simulator tool needed the user to grant access to the agent's simulator.
+  - Haiku's first check measured against the wrong reference offset. The corrected rule: clock-calibrated for top-anchored elements; neighbour distances for bottom-anchored elements, because the reference phone is about 22 pt shorter and cropped; the bar divider on pushed pages.
+  - Fix round 1 (Sonnet), each item re-measured before changing it:
+    - P21 Premium tab look and a single title.
+    - P10 card heights.
+    - P19 table offset and margins.
+    - P20 heading, and a ScrollView for the keyboard.
+    - P14 row height, P16 row pitch, P15 card height, P17 icon gap.
+    - Shared colours swapped in for hand-typed ones.
+  - In Haiku's re-check the only remaining mismatch (P17 icons) was a mis-measurement. Opus measured 23 pt against the reference's 24.7.
+  - Deferred to the milestone audit: text on Invite friends is slightly larger than the reference.
+- **Test results:** targeted in the worktree: T25 6/6, T21 5/5, T22 3/3. Full suite on `main` after the merge: the first run had 0 assertion failures but one UI runner timed out on start-up; the unchanged rerun passed 117, failed 0 (68 unit + 49 UI), `** TEST SUCCEEDED **` in 553 s.

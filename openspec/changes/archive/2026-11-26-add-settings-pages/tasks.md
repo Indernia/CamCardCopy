@@ -33,12 +33,12 @@ Read `build/test-output.log` and require `** TEST SUCCEEDED **` before checking 
 
 ## 4. Visual and flow check (Haiku)
 
-- [ ] 4.1 Haiku screenshots P10 (top and scrolled) and P11–P21 on the agent's simulator and compares each with its reference per D8: sampled colors, texts, row heights about ±2 pt, tab bar hidden. It records Pass or Fail with evidence in `docs/manual-checks/add-settings-pages.md`. Sonnet fixes measurable mismatches and Haiku re-checks. Verification: every page shows Pass, or lists only accepted artwork differences.
-- [ ] 4.2 Haiku walks P10 → P11–P20 and back for each edge in `reference/state-diagram.md`'s navigation shell, plus Upgrade + → P21 (ASSUMPTION edge), and records the results in the same file. Verification: all edges Pass.
+- [x] 4.1 Haiku screenshots P10 (top and scrolled) and P11–P21 on the agent's simulator and compares each with its reference per D8: sampled colors, texts, row heights about ±2 pt, tab bar hidden. It records Pass or Fail with evidence in `docs/manual-checks/add-settings-pages.md`. Sonnet fixes measurable mismatches and Haiku re-checks. Verification: every page shows Pass, or lists only accepted artwork differences.
+- [x] 4.2 Haiku walks P10 → P11–P20 and back for each edge in `reference/state-diagram.md`'s navigation shell, plus Upgrade + → P21 (ASSUMPTION edge), and records the results in the same file. Verification: all edges Pass.
 
 ## 5. Full suite
 
-- [ ] 5.1 After Opus merges to `main`: `xcodebuild test -project "CamCard Copy.xcodeproj" -scheme "CamCard Copy" -destination "platform=iOS Simulator,name=iPhone 17" -collect-test-diagnostics never > build/test-output.log 2>&1`. Verification: `** TEST SUCCEEDED **` with 0 failures, including T21, T22 and the new T25.
+- [x] 5.1 After Opus merges to `main`: `xcodebuild test -project "CamCard Copy.xcodeproj" -scheme "CamCard Copy" -destination "platform=iOS Simulator,name=iPhone 17" -collect-test-diagnostics never > build/test-output.log 2>&1`. Verification: `** TEST SUCCEEDED **` with 0 failures, including T21, T22 and the new T25.
 
 ## Workflow follow-up
 
