@@ -38,25 +38,4 @@ final class T22VisualFoundationUITests: XCTestCase {
 
         XCTAssertTrue(app.buttons["scan.close"].waitForExistence(timeout: 5))
     }
-
-    @MainActor
-    func testT22InertControlsStayInert() throws {
-        continueAfterFailure = false
-        let app = launch()
-
-        app.buttons["home.bell"].tap()
-        XCTAssertTrue(app.staticTexts["placeholder.home"].exists, "Home bell opens nothing")
-        XCTAssertFalse(app.buttons["nav.back"].exists)
-
-        app.buttons["home.digitalCard.create"].tap()
-        XCTAssertTrue(app.staticTexts["placeholder.home"].exists, "Create New Card opens nothing")
-        XCTAssertFalse(app.buttons["nav.back"].exists)
-
-        app.buttons["tab.cardHolder"].tap()
-        let bell = app.buttons["cardholder.bell"]
-        XCTAssertTrue(bell.waitForExistence(timeout: 5))
-        bell.tap()
-        XCTAssertTrue(app.staticTexts["No cards"].exists, "CardHolder bell opens nothing")
-        XCTAssertFalse(app.buttons["nav.back"].exists)
-    }
 }

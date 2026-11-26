@@ -54,6 +54,8 @@ See proposal.md, Why. Current state:
 | "No cards" | center y ≈ 371, `rowEmphasis` (16 medium) | |
 | Helper text | center y ≈ 419, 13 pt `textSecondary`, centered, max width 272 | wraps to 3 lines like the reference |
 
+**Fix round 1 corrections (re-measured with y_pt = y_px / 1.537 + 3.1, x_pt = (x_px - 8) / 1.537).** The first-pass y values above were about 10 pt too high for the top-anchored items. Corrected: Home bell, search and icons centre y ≈ 78 (bell 16 pt, stats 15 pt, crown 20 pt; the crown and stats are right-anchored because iPhone 17 is 402 pt wide, not 393); promo title text top ≈ 190; sheet top ≈ 257; "My Digital Card" text top ≈ 278; empty text lines top ≈ 556 and ≈ 575; "Create New Card" capsule top ≈ 615. CardHolder: bar glyphs and title centre y ≈ 78 (bell 13 pt and ⊕ 16.5 pt in the toolbar, which renders symbols larger than a plain view; ⊕ right-anchored), search capsule top ≈ 117, sheet top ≈ 173, "Cards" text top ≈ 192, "No cards" text top ≈ 375, helper text top ≈ 404. The SF Symbol empty illustrations are smaller than the CamCard artwork, so they are centred on the artwork's centre and the text below is placed at the reference's absolute y rather than at the reference's distance from the symbol.
+
 The Haiku visual check (task 5.2) confirms the values. Adjustments stay local to this change's files.
 
 ### D2 — Home layout structure

@@ -45,14 +45,23 @@ final class T21ShellPlaceholderUITests: XCTestCase {
         XCTAssertEqual(myDigitalCard.label, "My Digital Card")
         XCTAssertTrue(app.staticTexts["No cards yet. Create a new one!"].exists)
 
-        for element in [search, bell, crown, stats, speech, accuracy, create] {
+        for element in [search, stats, speech, accuracy] {
             element.tap()
+            assertStillOnHome(app)
+        }
+
+        for element in [bell, crown, create] {
+            element.tap()
+            XCTAssertTrue(app.buttons["nav.back"].waitForExistence(timeout: 5), "A page should be pushed")
+            XCTAssertFalse(app.staticTexts["placeholder.home"].exists, "Home content should be gone")
+            app.buttons["nav.back"].tap()
+            XCTAssertTrue(app.staticTexts["placeholder.home"].waitForExistence(timeout: 5))
             assertStillOnHome(app)
         }
     }
 
     @MainActor
-    func testCardHolderBellIsInert() throws {
+    func testCardHolderBellOpensMessages() throws {
         continueAfterFailure = false
         let app = launch()
 
@@ -64,9 +73,12 @@ final class T21ShellPlaceholderUITests: XCTestCase {
 
         bell.tap()
 
-        XCTAssertEqual(app.sheets.count, 0, "No sheet should open")
-        XCTAssertTrue(app.staticTexts["No cards"].exists, "CardHolder content should stay visible")
-        XCTAssertTrue(app.buttons["tab.cardHolder"].exists, "CardHolder should stay the current tab")
+        XCTAssertTrue(app.buttons["nav.back"].waitForExistence(timeout: 5), "A page should be pushed")
+        XCTAssertFalse(app.staticTexts["No cards"].exists, "CardHolder content should be gone")
+
+        app.buttons["nav.back"].tap()
+
+        XCTAssertTrue(app.staticTexts["No cards"].waitForExistence(timeout: 5), "CardHolder should return")
     }
 
     @MainActor
